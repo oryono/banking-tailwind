@@ -17,6 +17,8 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.TOKEN }}
 
   deploy:
     name: deploy to cluster
