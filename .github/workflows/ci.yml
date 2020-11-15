@@ -16,7 +16,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: $GITHUB_REPOSITORY:latest
+          tags: latest
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.TOKEN }}
 
 
   deploy:
