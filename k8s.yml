@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: banking-frontend-service
+spec:
+  type: ClusterIP
+  ports:
+    -   port: 80
+        targetPort: 80
+  selector:
+    app: banking-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banking-frontend
+  labels:
+    app: banking-frontend
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+  annotations:
+    keel.sh/pollSchedule: "@every 10s"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: banking-frontend
+  template:
+    metadata:
+      labels:
+        app: banking-frontend
+    spec:
+      imagePullSecrets:
+        -   name: registrypullsecret
+      containers:
+        -   name: banking-app
+            imagePullPolicy: Always
+            image: docker.pkg.github.com/oryono/banking-front/banking-front:latest
+            ports:
+              -   containerPort: 80
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: banking-frontend-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: banking-frontend-prod
+spec:
+  tls:
+    -   hosts:
+          - alpinebanking.software
+        secretName: banking-frontend-tls
+  rules:
+    -   host: alpinebanking.software
+        http:
+          paths:
+            -   backend:
+                  serviceName: banking-frontend-service
+                  servicePort: 80
+
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: banking-frontend-prod
+spec:
+  acme:
+    # Email address used for ACME registration
+    email: patricken08@gmail.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Name of a secret used to store the ACME account private key
+      name: banking-frontend-prod
+    # Add a single challenge solver, HTTP01 using nginx
+
+    solvers:
+      -   http01:
+            ingress:
+              class: nginx
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: registrypullsecret
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIucGtnLmdpdGh1Yi5jb20iOnsidXNlcm5hbWUiOiJvcnlvbm8iLCJwYXNzd29yZCI6ImFiOWFmOGI4MzFlMGZjMGNjMWJlMjJmNTE0OWJhNWI1Njg0M2Y4ZTciLCJlbWFpbCI6InBhdHJpY2tlbjA4QGdtYWlsLmNvbSIsImF1dGgiOiJiM0o1YjI1dk9tRmlPV0ZtT0dJNE16RmxNR1pqTUdOak1XSmxNakptTlRFME9XSmhOV0kxTmpnME0yWTRaVGM9In19fQ==
+type: kubernetes.io/dockerconfigjson
