@@ -1,8 +1,10 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
+const HTTP_ENDPOINT = process.env.REACT_APP_HTTP_ENDPOINT || "http://localhost:4000/api";
+
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/api',
+    uri: HTTP_ENDPOINT,
 });
 
 const authLink = setContext((_, { headers }) => {
