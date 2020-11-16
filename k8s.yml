@@ -38,10 +38,6 @@ spec:
             image: ghcr.io/oryono/banking-tailwind:latest
             ports:
               -   containerPort: 80
-
-            env:
-              - name: REACT_APP_HTTP_ENDPOINT
-                value: "https://api.alpinebanking.software/api"
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -83,11 +79,3 @@ spec:
             ingress:
               class: nginx
 
-#---
-#apiVersion: v1
-#kind: Secret
-#metadata:
-#  name: registrypullsecret
-#data:
-#  .dockerconfigjson: eyJhdXRocyI6eyJkb2NrZXIucGtnLmdpdGh1Yi5jb20iOnsidXNlcm5hbWUiOiJvcnlvbm8iLCJwYXNzd29yZCI6ImFiOWFmOGI4MzFlMGZjMGNjMWJlMjJmNTE0OWJhNWI1Njg0M2Y4ZTciLCJlbWFpbCI6InBhdHJpY2tlbjA4QGdtYWlsLmNvbSIsImF1dGgiOiJiM0o1YjI1dk9tRmlPV0ZtT0dJNE16RmxNR1pqTUdOak1XSmxNakptTlRFME9XSmhOV0kxTmpnME0yWTRaVGM9In19fQ==
-#type: kubernetes.io/dockerconfigjson

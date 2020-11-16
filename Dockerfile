@@ -3,6 +3,7 @@ FROM node:12 as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+ENV REACT_APP_HTTP_ENDPOINT="https://api.alpinebanking.software/api"
 COPY . .
 RUN npm run build
 
