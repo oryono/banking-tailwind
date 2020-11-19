@@ -157,7 +157,7 @@ export function Nav({children}) {
                             />
                             <div className="flex flex-col">
                                 <p className="text-gray-900 text-sm font-semibold ml-2">{ auth()}</p>
-                                <p className="text-gray-900 text-sm font-semibold ml-2">{JSON.parse(localStorage.getItem("client")).name}</p>
+                                <p className="text-gray-900 text-sm font-semibold ml-2">{localStorage.getItem("client") ? JSON.parse(localStorage.getItem("client")).name : null}</p>
                             </div>
                         </div>
                         <div>

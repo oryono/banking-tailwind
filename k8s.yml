@@ -45,37 +45,15 @@ metadata:
   name: banking-frontend-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: banking-frontend-prod
 spec:
   tls:
     -   hosts:
           - alpinebanking.software
-        secretName: banking-frontend-tls
+        secretName: alpinebanking-software-secret
   rules:
-    -   host: alpinebanking.software
+    -   host: "*.alpinebanking.software"
         http:
           paths:
             -   backend:
                   serviceName: banking-frontend-service
                   servicePort: 80
-
----
-apiVersion: cert-manager.io/v1alpha2
-kind: ClusterIssuer
-metadata:
-  name: banking-frontend-prod
-spec:
-  acme:
-    # Email address used for ACME registration
-    email: patricken08@gmail.com
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      # Name of a secret used to store the ACME account private key
-      name: banking-frontend-prod
-    # Add a single challenge solver, HTTP01 using nginx
-
-    solvers:
-      -   http01:
-            ingress:
-              class: nginx
-
