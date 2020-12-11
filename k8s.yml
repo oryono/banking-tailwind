@@ -16,10 +16,10 @@ metadata:
   name: banking-frontend
   labels:
     app: banking-frontend
-    keel.sh/policy: force
-    keel.sh/trigger: poll
   annotations:
     keel.sh/pollSchedule: "@every 10s"
+    keel.sh/policy: force
+    keel.sh/trigger: poll
 spec:
   replicas: 3
   selector:
