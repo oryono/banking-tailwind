@@ -24,16 +24,16 @@ const GET_CUSTOMER_QUERY = gql`
 `;
 
 function Customer(props) {
-    const [customerId, setCustomerId] = useState(null)
+    const [customerId, setCustomerId] = useState(parseInt(props.match.params.id))
     React.useEffect(() => {
-        setCustomerId(parseInt(props.match.params.id))
-    }, [props.match.params.id])
+        setCustomerId(customerId)
+    }, [customerId])
     const customerInfo = useQuery(GET_CUSTOMER_QUERY, {variables: {customerId: customerId}})
 
     return (
         <Nav>
             <div>
-                <CustomerPage customerInfo={customerInfo}/>
+                <CustomerPage customerInfo={customerInfo} customerId={customerId}/>
             </div>
         </Nav>
     )

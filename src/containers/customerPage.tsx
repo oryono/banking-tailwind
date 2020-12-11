@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import {gql, QueryResult, useMutation} from "@apollo/client";
 import Error from "../components/Error";
 import {CustomerCard} from "../components/customerCard";
-import Shares from "./shares";
 import {Wallets} from "./wallets";
 import {Loans} from "./loans";
 import {PuffLoader} from "react-spinners";
 import { Deposit } from "./deposit";
 import {Withdraw} from "./withdraw";
+import {NewWallet} from "./newWallet";
 
 const CREATE_DEPOSIT_MUTATION = gql`
     mutation createDeposit($amount: Int!, $walletId: Int!) {
@@ -35,11 +35,23 @@ const CREATE_WITHDRAWAL_MUTATION = gql`
     }
 `
 
-export function CustomerPage({customerInfo}: {customerInfo: QueryResult}) {
+const CREATE_WALLET_MUTATION = gql`
+    mutation createWallet($clientId: Int!, $walletProductId: Int!, $customerId: Int!, $description: String){
+        createWalletAccount(clientId: $clientId, customerId: $customerId, description: $description, walletProductId: $walletProductId) {
+            accountNumber
+        }
+    }
+`
+
+export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryResult, customerId: number}) {
     const [showDepositModal, setShowDepositModal] = useState({show: false, account: null})
     const [showWithdrawalModal, setShowWithdrawalModal] = useState({show: false, account: null})
-    const [ deposit, depositResult] = useMutation(CREATE_DEPOSIT_MUTATION)
+    const [showNewWalletModal, setShowNewWalletModal] = useState(false)
+
+    const [ deposit, depositResult] = useMutation(CREATE_DEPOSIT_MUTATION, {errorPolicy: "all"})
     const [ withdraw, withdrawalResult] = useMutation(CREATE_WITHDRAWAL_MUTATION, { errorPolicy: "all"})
+    const [ createWallet, createWalletResult] = useMutation(CREATE_WALLET_MUTATION)
+    
     const [refetchWallets, setRefetchWallets] = useState(false)
 
     React.useEffect(() => {
@@ -57,6 +69,7 @@ export function CustomerPage({customerInfo}: {customerInfo: QueryResult}) {
     if (customerInfo.error) return <Error error={customerInfo.error}/>
     return (
         <div>
+            { showNewWalletModal ? <NewWallet close={setShowNewWalletModal} submit={createWallet} loading={createWalletResult.loading} error={createWalletResult.error} customerId={customerId}/> : null}
             { showDepositModal.show ? <Deposit close={setShowDepositModal} account={showDepositModal.account} submit={deposit} loading={depositResult.loading} error={depositResult.error} data={depositResult.data}/> : null }
             { showWithdrawalModal.show ? <Withdraw close={setShowWithdrawalModal} account={showWithdrawalModal.account} submit={withdraw} loading={withdrawalResult.loading} error={withdrawalResult.error} data={withdrawalResult.data}/> : null }
             <div className="mb-4">
@@ -69,8 +82,7 @@ export function CustomerPage({customerInfo}: {customerInfo: QueryResult}) {
                         <CustomerCard customer={customerInfo.data.customer}/>
                     </div>
                     <div className="w-3/4 px-4">
-                        <Shares customerId={customerInfo.data.customer.id}/>
-                        <Wallets customerId={customerInfo.data.customer.id} showDepositModal={setShowDepositModal} showWithdrawalModal={setShowWithdrawalModal} refetchWallets={refetchWallets}/>
+                        <Wallets customerId={customerInfo.data.customer.id} showDepositModal={setShowDepositModal} showWithdrawalModal={setShowWithdrawalModal} refetchWallets={refetchWallets} showNewWalletModal={setShowNewWalletModal}/>
                         <Loans customerId={customerInfo.data.customer.id}/>
                     </div>
                 </div>

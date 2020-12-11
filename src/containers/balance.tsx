@@ -15,5 +15,5 @@ export function Balance(props) {
 
     if (loading) return <span>Loading...</span>
     if (error) return <Error error={error}/>
-    return <span>{formatCurrency(data.accountDetails.balance)}</span>
+    return <span className="text-lg text-green-600">{formatCurrency(data.accountDetails.balance)}</span>
 }

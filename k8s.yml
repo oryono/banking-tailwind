@@ -57,3 +57,10 @@ spec:
             -   backend:
                   serviceName: banking-frontend-service
                   servicePort: 80
+
+    -   host: alpinebanking.software
+        http:
+          paths:
+            -   backend:
+                  serviceName: banking-frontend-service
+                  servicePort: 80

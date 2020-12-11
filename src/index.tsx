@@ -5,17 +5,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ApolloProvider} from "@apollo/client";
 import client from "./client";
-import {RecoilRoot} from "recoil";
 
 ReactDOM.render(
-  <React.StrictMode>
-      <ApolloProvider client={client}>
-          <RecoilRoot>
-              <App />
-          </RecoilRoot>
-      </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <ApolloProvider client={client}>
+            <App/>
+        </ApolloProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
