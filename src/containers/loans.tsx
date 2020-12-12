@@ -32,7 +32,7 @@ export function Loans(props) {
             <div className="flex justify-between">
                 <p className="font-bold text-xl text-gray-700">Loans</p>
                 <span>
-                    <button>
+                    <button type="button" onClick={props.setShowLoanApplicationModal}>
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round"
@@ -45,7 +45,7 @@ export function Loans(props) {
 
             {
                 data.accounts.map(account => (
-                    <div className="flex justify-between my-2 border-t">
+                    <div className="flex justify-between my-2 border-t" key={account.id}>
                         <div>
                             <div>
                                 <p className="text-xl text-gray-400 inline"><Link to={`/accounts/${account.id}`}>{account.name}</Link></p>

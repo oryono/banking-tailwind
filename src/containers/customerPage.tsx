@@ -8,6 +8,7 @@ import {PuffLoader} from "react-spinners";
 import { Deposit } from "./deposit";
 import {Withdraw} from "./withdraw";
 import {NewWallet} from "./newWallet";
+import {NewLoanApplication} from "./newLoanApplication";
 
 const CREATE_DEPOSIT_MUTATION = gql`
     mutation createDeposit($amount: Int!, $walletId: Int!) {
@@ -43,14 +44,31 @@ const CREATE_WALLET_MUTATION = gql`
     }
 `
 
+const CREATE_LOAN_APPLICATION_MUTATION = gql`
+    mutation applyForLoan($clientId: Int!, $amount: Int!, $customerId: Int!, $loanPurpose: String!, $duration: Int!, $interestRate: Int!, $installments: String!, $loanProductId: Int!) {
+        applyForLoan(clientId: $clientId, amount: $amount, customerId: $customerId, purpose: $loanPurpose, duration: $duration, interestRate: $interestRate, loanProductId: $loanProductId, installments: $installments) {
+            id
+            accountNumber
+            client{
+                name
+            }
+            customer{
+                name
+            }
+        }
+    }
+`
+
 export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryResult, customerId: number}) {
     const [showDepositModal, setShowDepositModal] = useState({show: false, account: null})
     const [showWithdrawalModal, setShowWithdrawalModal] = useState({show: false, account: null})
     const [showNewWalletModal, setShowNewWalletModal] = useState(false)
+    const [showLoanApplicationModal, setShowLoanApplicationModal] = useState(false)
 
     const [ deposit, depositResult] = useMutation(CREATE_DEPOSIT_MUTATION, {errorPolicy: "all"})
     const [ withdraw, withdrawalResult] = useMutation(CREATE_WITHDRAWAL_MUTATION, { errorPolicy: "all"})
     const [ createWallet, createWalletResult] = useMutation(CREATE_WALLET_MUTATION)
+    const [ createLoanApplication, createLoanApplicationResult] = useMutation(CREATE_LOAN_APPLICATION_MUTATION, {errorPolicy: "all"})
     
     const [refetchWallets, setRefetchWallets] = useState(false)
 
@@ -72,6 +90,7 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
             { showNewWalletModal ? <NewWallet close={setShowNewWalletModal} submit={createWallet} loading={createWalletResult.loading} error={createWalletResult.error} customerId={customerId}/> : null}
             { showDepositModal.show ? <Deposit close={setShowDepositModal} account={showDepositModal.account} submit={deposit} loading={depositResult.loading} error={depositResult.error} data={depositResult.data}/> : null }
             { showWithdrawalModal.show ? <Withdraw close={setShowWithdrawalModal} account={showWithdrawalModal.account} submit={withdraw} loading={withdrawalResult.loading} error={withdrawalResult.error} data={withdrawalResult.data}/> : null }
+            { showLoanApplicationModal ? <NewLoanApplication customerId={customerId} close={() => setShowLoanApplicationModal(false)} error={createLoanApplicationResult.error} loading={createLoanApplicationResult.loading} submit={createLoanApplication}/> : null}
             <div className="mb-4">
                 <p className="font-bold text-2xl text-gray-700">
                     {customerInfo.data.customer.name}
@@ -83,7 +102,7 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
                     </div>
                     <div className="w-3/4 px-4">
                         <Wallets customerId={customerInfo.data.customer.id} showDepositModal={setShowDepositModal} showWithdrawalModal={setShowWithdrawalModal} refetchWallets={refetchWallets} showNewWalletModal={setShowNewWalletModal}/>
-                        <Loans customerId={customerInfo.data.customer.id}/>
+                        <Loans customerId={customerInfo.data.customer.id} setShowLoanApplicationModal={setShowLoanApplicationModal}/>
                     </div>
                 </div>
             </div>

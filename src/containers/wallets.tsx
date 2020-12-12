@@ -16,7 +16,6 @@ const GET_CUSTOMER_WALLETS = gql`
 `
 
 export function Wallets(props) {
-    console.log(props)
     const {data, loading, error, refetch} = useQuery(GET_CUSTOMER_WALLETS, {fetchPolicy: "network-only", variables: {customerId: parseInt(props.customerId)}})
 
     React.useEffect(() => {
@@ -52,7 +51,7 @@ export function Wallets(props) {
 
             {
                 data.accounts.map(account => (
-                    <div className="flex justify-between my-2 border-t">
+                    <div className="flex justify-between my-2 border-t" key={account.id}>
                         <div>
                             <div>
                                 <p className="text-xl text-gray-600 inline"><Link to={`/accounts/${account.id}`}>{account.name}</Link></p>
