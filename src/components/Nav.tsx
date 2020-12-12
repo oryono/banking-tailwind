@@ -7,7 +7,7 @@ export function Nav({children}) {
     return (
         <Protected>
             <div className="flex">
-                <div className="w-1/5 bg-gray-200 h-screen overflow-y-scroll px-8 py-2 flex flex-col justify-between">
+                <div className="w-1/5 bg-gray-200 h-screen overflow-y-hidden px-8 py-2 flex flex-col justify-between">
                     <div>
                         <div className="py-4 flex items-center">
                             <img
