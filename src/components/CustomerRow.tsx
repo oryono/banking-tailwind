@@ -13,23 +13,23 @@ export function CustomerRow({customer}: {customer: CustomerInterface}) {
                              alt=""/>
                     </div>
                     <div className="ml-4">
-                        <div className="text-sm leading-5 font-medium text-gray-900">
+                        <div className="leading-5 font-medium text-gray-900">
                             <Link to={`/customers/${customer.id}`}>
                                 {customer.name}
                             </Link>
                         </div>
-                        <div className="text-sm leading-5 text-gray-500">
+                        <div className="leading-5 text-gray-500">
                             {customer.email}
                         </div>
                     </div>
                 </div>
             </td>
             <td className="px-6 py-4 whitespace-no-wrap">
-                <div className="text-sm leading-5 text-gray-900">{customer.gender}</div>
+                <div className="leading-5 text-gray-900">{customer.gender}</div>
             </td>
             <td className="px-6 py-4 whitespace-no-wrap">
                 <span
-                    className="px-2 inline-flex text-xs leading-5 font-semibold text-green-800">
+                    className="px-2 inline-flex leading-5">
                   {customer.phone}
                 </span>
             </td>

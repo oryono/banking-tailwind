@@ -2,23 +2,24 @@ import React from 'react';
 import {Protected} from './protected';
 import {NavLink} from "react-router-dom";
 import {auth} from "../utils/auth";
+import SignOut from "../containers/signOut";
 
 export function Nav({children}) {
     return (
         <Protected>
             <div className="flex">
-                <div className="w-1/5 bg-gray-200 h-screen overflow-y-hidden px-8 py-2 flex flex-col justify-between">
+                <div className="w-1/5 bg-gray-200 h-screen flex flex-col justify-between">
                     <div>
-                        <div className="py-4 flex items-center">
+                        <div className="py-4 flex px-2 py-2 items-center">
                             <img
                                 className="h-12 w-12 rounded-full"
                                 src="https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg"
                                 alt=""
                             />
-                            <p className="ml-2">Banking</p>
+                            <p className="ml-2 text-lg">Alpine Finance</p>
                         </div>
-                        <ul>
-                            <li className="py-2 px-4 w-full hover:bg-gray-400 rounded">
+                        <ul className="px-1">
+                            <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
                                 <NavLink to="/" className="block" exact activeStyle={{
                                     fontWeight: "bold",
                                 }}>
@@ -32,7 +33,7 @@ export function Nav({children}) {
                                     </div>
                                 </NavLink>
                             </li>
-                            <li className="py-2 px-4 w-full hover:bg-gray-400 rounded">
+                            <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
                                 <NavLink to="/customers" className="block" activeStyle={{
                                     fontWeight: "bold",
                                 }}>
@@ -50,7 +51,7 @@ export function Nav({children}) {
                                 </NavLink>
                             </li>
 
-                            <li className="py-2 px-4 w-full hover:bg-gray-400 rounded">
+                            <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
                                 <NavLink to="/loans" className="block" activeStyle={{
                                     fontWeight: "bold",
                                 }}>
@@ -68,7 +69,7 @@ export function Nav({children}) {
                                 </NavLink>
                             </li>
 
-                            <li className="py-2 px-4 w-full hover:bg-gray-400 rounded group">
+                            <li className="py-2 px-3 w-full hover:bg-gray-400 rounded group">
                                 <div className="block cursor-pointer">
                                     <div className="flex">
                                         <svg className="w-6 h-6" fill="none" stroke="purple" viewBox="0 0 24 24"
@@ -107,10 +108,10 @@ export function Nav({children}) {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="py-2 px-4 w-full hover:bg-gray-400 rounded group">
+                            <li className="py-2 px-3 w-full hover:bg-gray-400 rounded group">
                                 <div className="block cursor-pointer">
                                     <div className="flex">
-                                        <svg className="w-6 h-6" fill="none" stroke="pink" viewBox="0 0 24 24"
+                                        <svg className="w-6 h-6" fill="none" stroke="blue" viewBox="0 0 24 24"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                                   d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
@@ -148,39 +149,24 @@ export function Nav({children}) {
                             </li>
                         </ul>
                     </div>
-                    <div className="flex justify-between items-center border-t pt-4">
+                    <div className="flex justify-between items-center px-2 py-4 bg-gray-400">
                         <div className="flex items-center justify-between">
-                            <img
-                                className="h-10 w-10 rounded-full"
-                                src="https://picsum.photos/200"
-                                alt=""
-                            />
+                            <svg className="w-10 h-10" fill="maroon" stroke="currentColor" viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
                             <div className="flex flex-col">
-                                <p className="text-gray-900 text-sm font-semibold ml-2">{ auth()}</p>
-                                <p className="text-gray-900 text-sm font-semibold ml-2">{localStorage.getItem("client") ? JSON.parse(localStorage.getItem("client")).name : null}</p>
+                                <p className="text-gray-900 text-sm font-semibold ml-2 text">{ auth()}</p>
+                                <p className="text-gray-800 text-sm font-semibold ml-2">{localStorage.getItem("client") ? JSON.parse(localStorage.getItem("client")).name : null}</p>
                             </div>
                         </div>
                         <div>
-                            <NavLink to="#">
-                                <svg
-                                    className="w-6 h-6"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                                    />
-                                </svg>
-                            </NavLink>
+                            <SignOut/>
                         </div>
                     </div>
                 </div>
-                <div className="w-4/5 h-screen overflow-y-scroll p-4">
+                <div className="w-4/5 h-screen overflow-auto p-4">
                     <main>{children}</main>
                 </div>
             </div>

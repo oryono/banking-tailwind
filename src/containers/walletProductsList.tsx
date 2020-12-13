@@ -11,28 +11,28 @@ export function WalletProductsList({walletProducts}) {
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                 <tr>
-                                    <th className="px-6 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
-                                        Name
+                                    <th className="px-6 py-4 bg-gray-50 text-left leading-4 font-medium text-gray-500 tracking-wider">
+                                        Product Name
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Monthly Charge
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Minimum Balance
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Opening Balance
                                     </th>
 
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Interest Rate
                                     </th>
 
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Deposit Fee
                                     </th>
 
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Withdrawal Fee
                                     </th>
 

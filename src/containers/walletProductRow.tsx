@@ -4,47 +4,47 @@ import {formatCurrency} from "../utils/currency";
 export function WalletProductRow({walletProduct}) {
     return (
         <tr>
-            <td className="px-6 py-4 whitespace-no-wrap">
-                <span className="text-sm leading-5 text-gray-900">{walletProduct.name}</span>
+            <td className="pl-6 py-4 whitespace-no-wrap">
+                <span className="leading-5 text-gray-900">{walletProduct.name}</span>
             </td>
 
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                               {formatCurrency(walletProduct.monthlyCharge)}
                             </span>
             </td>
 
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                                 {formatCurrency(walletProduct.minBalance)}
                             </span>
             </td>
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                                 {formatCurrency(walletProduct.openingBalance)}
                             </span>
             </td>
 
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                                 {walletProduct.interestRate}
                             </span>
             </td>
 
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                                 {formatCurrency(walletProduct.depositFee)}
                             </span>
             </td>
 
-            <td className="px-4 py-4 whitespace-no-wrap">
+            <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                                 {formatCurrency(walletProduct.withdrawalFee)}
                             </span>
             </td>
