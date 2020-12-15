@@ -18,6 +18,7 @@ import {TrialBalance} from "./containers/trialBalance";
 import {Users} from "./containers/users";
 import {WalletProducts} from "./containers/walletProducts";
 import {LoanProducts} from "./containers/loanProducts";
+import Loan from "./containers/loan";
 
 const GET_CLIENT_QUERY = gql`
   query getClient($slug: String!) {
@@ -83,6 +84,9 @@ export default function App() {
             </Route>
             <Route path="/loans" exact>
               <AllLoans />
+            </Route>
+            <Route path="/loans/:id" exact>
+              <Loan/>
             </Route>
             <Route path="/reports/transactions" exact>
               <Transactions />

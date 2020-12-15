@@ -14,6 +14,10 @@ const GET_LOANS_QUERY = gql`
                 id
                 name
             }
+            loanDetail{
+                status
+                totalPrincipal
+            }
             loanInstallments {
                 id
                 principal

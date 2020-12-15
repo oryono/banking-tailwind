@@ -11,6 +11,9 @@ const GET_CUSTOMER_LOANS = gql`
             accountNumber
             id
             name
+            loanDetail{
+                status
+            }
         }
     }
 `

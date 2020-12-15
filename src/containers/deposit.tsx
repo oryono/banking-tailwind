@@ -20,7 +20,7 @@ export function Deposit({close, account, submit, loading, error, data}: Props) {
         if (event.target.name === "narration") setNarration(event.target.value)
     }
 
-    if (error) return <Error error={error}/>
+    // if (error) return <Error error={error}/>
 
     return (
         <div>
@@ -46,6 +46,7 @@ export function Deposit({close, account, submit, loading, error, data}: Props) {
                                 </svg>
                             </button>
                         </div>
+                        { error ? <div className="text-pink-300 px-6 pt-2">{error.message }</div> : null}
                         { data?.createDeposit != null ? <div className="text-green-600 px-6 pt-2">Deposit was successful</div> : null}
                         <form action="" onSubmit={(e) => {e.preventDefault(); submit({ variables: {walletId: parseInt(account), amount: amount}})}}>
                             <div className="relative px-6 flex-auto">

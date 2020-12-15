@@ -1,4 +1,5 @@
 import {Finance} from 'financejs'
+import moment from "moment";
 
 const finance = new Finance();
 
@@ -13,11 +14,14 @@ interface MonthlyPayment {
     principalPaymentRounded: number;
     principalBalanceRounded: number;
     accInterestRounded: number;
+    paymentDate: string;
 }
 export function amortizationSchedule(principal: number, term: number, interestRate: number): MonthlyPayment[]  {
     const monthlyPayment = finance.AM(principal, interestRate, term, 1);
     const monthlyRate = interestRate / 12.0 / 100.0;
     const amortizationSchedule: MonthlyPayment[] = [];
+
+    let date = moment()
 
     for (let i = 0; i < term; i++) {
         const prevPrincipal = i === 0 ? principal : amortizationSchedule[i - 1].principalBalance;
@@ -36,6 +40,7 @@ export function amortizationSchedule(principal: number, term: number, interestRa
             principalPaymentRounded: principalPayment,
             principalBalanceRounded: principalBalance,
             accInterestRounded: accInterest,
+            paymentDate: date.add(1, 'months').format("YYYY-MM-DD")
         });
     }
     return amortizationSchedule;
