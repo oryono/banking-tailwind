@@ -1,5 +1,6 @@
 import React from "react";
 import {formatCurrency} from "../utils/currency";
+import {Money} from "../components/shared/money";
 
 export function WalletProductRow({walletProduct}) {
     return (
@@ -11,20 +12,20 @@ export function WalletProductRow({walletProduct}) {
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                              {formatCurrency(walletProduct.monthlyCharge)}
+                              <Money money={walletProduct.monthlyCharge}/>
                             </span>
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                                {formatCurrency(walletProduct.minBalance)}
+                                <Money money={walletProduct.minBalance}/>
                             </span>
             </td>
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                                {formatCurrency(walletProduct.openingBalance)}
+                                <Money money={walletProduct.openingBalance}/>
                             </span>
             </td>
 
@@ -38,14 +39,14 @@ export function WalletProductRow({walletProduct}) {
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                                {formatCurrency(walletProduct.depositFee)}
+                                <Money money={walletProduct.depositFee}/>
                             </span>
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                                {formatCurrency(walletProduct.withdrawalFee)}
+                                <Money money={walletProduct.withdrawalFee}/>
                             </span>
             </td>
 

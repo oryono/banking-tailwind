@@ -1,7 +1,7 @@
-export function formatCurrency(amount: number) {
+export function formatCurrency(amount: number, currency: string = "UGX") {
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "UGX",
+        currency: currency,
         minimumFractionDigits: 0,
     });
 

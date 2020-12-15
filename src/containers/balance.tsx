@@ -1,7 +1,7 @@
 import React from "react";
 import {gql, useQuery} from "@apollo/client";
 import Error from "../components/Error";
-import {formatCurrency} from "../utils/currency";
+import {Money} from "../components/shared/money";
 
 const GET_ACCOUNT_DETAILS = gql`
     query getAccountDetails ($accountId: Int!){
@@ -15,5 +15,7 @@ export function Balance(props) {
 
     if (loading) return <span>Loading...</span>
     if (error) return <Error error={error}/>
-    return <span className="text-lg text-green-600">{formatCurrency(data.accountDetails.balance)}</span>
+    return <span className="text-lg ">
+        <Money money={data.accountDetails.balance} color="text-green-600"/>
+    </span>
 }

@@ -5,26 +5,26 @@ export function AccountRow({account}) {
     return (
         <tr>
             <td className="px-6 py-4 whitespace-no-wrap">
-                <span className="text-sm leading-5 text-gray-900">{account.accountNumber}</span>
+                <span className="leading-5 text-gray-900">{account.accountNumber}</span>
             </td>
 
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                               {account.name}
                             </span>
             </td>
 
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                               {account.type}
                             </span>
             </td>
 
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-sm">
+                                className="px-2 inline-flex">
                               <Balance accountId={account.id} />
                             </span>
             </td>

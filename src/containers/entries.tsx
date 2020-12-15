@@ -3,7 +3,7 @@ import {EntryRow} from "../components/EntryRow";
 
 export function Entries({entries}) {
     return (
-        <div className="my-4">
+        <div className="my-2">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead>
@@ -31,7 +31,7 @@ export function Entries({entries}) {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                     {
-                        entries.map(entry => <EntryRow entry={entry}/>)
+                        entries.map(entry => <EntryRow  key={entry.id} entry={entry}/>)
                     }
                     </tbody>
                 </table>

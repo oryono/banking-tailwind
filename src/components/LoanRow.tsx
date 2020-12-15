@@ -2,6 +2,7 @@ import React from "react";
 import {Balance} from "../containers/balance";
 import {formatCurrency} from "../utils/currency";
 import {Link} from "react-router-dom"
+import {Money} from "./shared/money";
 
 export function LoanRow({loan}) {
     function totalPrincipal(loan) {
@@ -32,8 +33,8 @@ export function LoanRow({loan}) {
 
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex text-green-600">
-                                {formatCurrency(loan.loanDetail.totalPrincipal)}
+                                className="px-2 inline-flex">
+                                <Money money={loan.loanDetail.totalPrincipal} color="text-green-600"/>
                             </span>
             </td>
 

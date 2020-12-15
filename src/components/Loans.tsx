@@ -20,7 +20,7 @@ export function Loans({loans}) {
 
                     <tbody className="bg-white divide-y divide-gray-200">
                     {
-                        loans.map(loan => <LoanRow loan={loan}/>)
+                        loans.map(loan => <LoanRow  key={loan.id} loan={loan}/>)
                     }
                     </tbody>
                 </table>

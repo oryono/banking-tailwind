@@ -12,20 +12,20 @@ export function LoanProductsList({loanProducts}) {
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                 <tr>
-                                    <th className="px-6 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-6 py-4 bg-gray-50 text-left leading-4 font-medium text-gray-500 tracking-wider">
                                         Name
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Interest Method
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Interest Rate
                                     </th>
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Payment Frequency
                                     </th>
 
-                                    <th className="px-3 py-4 bg-gray-50 text-left text-sm leading-4 font-medium text-gray-500 tracking-wider">
+                                    <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Arrears Period
                                     </th>
 

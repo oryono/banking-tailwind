@@ -51,7 +51,7 @@ export function Loans(props) {
                     <div className="flex justify-between my-2 border-t" key={account.id}>
                         <div>
                             <div>
-                                <p className="text-xl text-gray-400 inline"><Link to={`/accounts/${account.id}`}>{account.name}</Link></p>
+                                <p className="text-xl text-gray-400 inline"><Link to={`/loans/${account.id}`}>{account.name}</Link></p>
                             </div>
                             <div>
                                 <p className="text-xl text-gray-400 inline">{account.accountNumber}</p>

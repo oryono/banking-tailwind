@@ -5,7 +5,7 @@ export function Installments({installments}) {
     return (
         <div>
             <div className="flex flex-col">
-                <span className="text-lg text-gray-700 py-2">Installments</span>
+                <p className="py-2 font-bold text-lg text-gray-700 inline">Installments</p>
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-4">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-4">
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -35,7 +35,7 @@ export function Installments({installments}) {
                                 </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                {installments.map(installment => <InstallmentRow installment={installment}/>)}
+                                {installments.map(installment => <InstallmentRow key={installment.id} installment={installment}/>)}
                                 </tbody>
                             </table>
                         </div>
