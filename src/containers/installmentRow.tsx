@@ -1,5 +1,4 @@
 import React from "react";
-import {formatCurrency} from "../utils/currency";
 import {Money} from "../components/shared/money";
 
 export function InstallmentRow({installment}) {
@@ -10,18 +9,20 @@ export function InstallmentRow({installment}) {
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
-                <Money money={installment.monthlyPayment}/>
+                {installment.id ? <Money money={installment.monthlyPayment}/> : <Money money={installment.payment}/>}
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
-                <Money money={installment.principal}/>
+                {installment.id ? <Money money={installment.principal}/> : <Money money={installment.principalPayment}/>}
             </td>
             <td className="pl-4 py-4 whitespace-no-wrap">
-                <Money money={installment.interest}/>
+
+                {installment.id ? <Money money={installment.interest}/> : <Money money={installment.interestPayment}/>}
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
-                <Money money={installment.balance}/>
+
+                {installment.id ? <Money money={installment.balance}/> : <Money money={installment.principalBalance}/>}
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">

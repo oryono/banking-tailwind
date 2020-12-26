@@ -6,6 +6,7 @@ import {Installments} from "./installments";
 import {Loading} from "../components/Loading";
 import {formatCurrency} from "../utils/currency";
 import {Entries} from "./entries";
+import {amortizationSchedule} from "../utils/amortization";
 
 const GET_ACCOUNT_DETAILS = gql`
     query getAccountDetails ($accountId: Int!){
@@ -47,6 +48,7 @@ const GET_ACCOUNT_DETAILS = gql`
                     status
                     totalPrincipal
                     purpose
+                    loanPeriod
                 }
                 customer {
                     id
@@ -70,11 +72,21 @@ function Loan(props) {
     const [loanDetails, seLoanDetails] = useState()
     const loanAccountDetails = useQuery(GET_ACCOUNT_DETAILS, {variables: {accountId: parseInt(loanAccountId)}})
 
+    const [temporalySchedule, setTemporalySchedule] = useState([])
+
+    function generateSchedule(principal, period, interest) {
+        console.log("Principal", principal)
+        console.log("Period", period)
+        console.log("Interest", interest)
+        return amortizationSchedule(principal, period, interest)
+    }
+
     React.useEffect(() => {
         if (!loanAccountDetails.loading && loanAccountDetails.data) {
             seLoanDetails(loanAccountDetails.data.accountDetails)
+            setTemporalySchedule(generateSchedule(loanDetails?.account.loanDetail?.totalPrincipal, loanDetails?.account.loanDetail?.loanPeriod, loanDetails?.account.loanDetail?.interestRate))
         }
-    }, [loanAccountDetails.loading, loanAccountDetails.data])
+    }, [loanAccountDetails.loading, loanAccountDetails.data, loanDetails])
 
     if (loanAccountDetails.loading) return <Loading/>
     return (
@@ -110,7 +122,8 @@ function Loan(props) {
                     <Entries entries={loanDetails?.account.entries}/>
                 </div>
 
-                <Installments installments={loanDetails?.account.loanInstallments}/>
+                {loanDetails?.account.loanDetail.status === "Disbursed" ? <Installments installments={loanDetails?.account.loanInstallments} scheduleTitle="Installments"/> : <Installments installments={temporalySchedule} scheduleTitle="Temporal Schedule"/>}
+
             </div>
         </Nav>
     )
