@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {Nav} from "../components/Nav";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import {withRouter} from "react-router-dom";
 import {Installments} from "./installments";
 import {Loading} from "../components/Loading";
 import {formatCurrency} from "../utils/currency";
 import {Entries} from "./entries";
 import {amortizationSchedule} from "../utils/amortization";
+import {Approve} from "./approve";
+import {Disburse} from "./disburse";
 
 const GET_ACCOUNT_DETAILS = gql`
     query getAccountDetails ($accountId: Int!){
@@ -49,6 +51,11 @@ const GET_ACCOUNT_DETAILS = gql`
                     totalPrincipal
                     purpose
                     loanPeriod
+                    approvedAmount
+                    approvedBy
+                    approvedOn
+                    disbursedBy
+                    disbursedOn
                 }
                 customer {
                     id
@@ -67,17 +74,26 @@ const GET_ACCOUNT_DETAILS = gql`
     }
 `;
 
+const DISBURSE_LOAN_MUTATION = gql`
+    mutation disburseLoan($disbursementAmount: Int!, $loanAccountId: Int!, $loanStandingOrderAccountId: Int!, $disbursementAccountId: Int!, $installments: String!) {
+        disburseLoan(disbursementAmount: $disbursementAmount, disbursementAccountId: $disbursementAccountId, installments: $installments, loanStandingOrderAccountId: $loanStandingOrderAccountId, loanAccountId: $loanAccountId) {
+            message
+        }
+    }
+`
+
 function Loan(props) {
     const loanAccountId = props.match.params.id
     const [loanDetails, seLoanDetails] = useState()
+
     const loanAccountDetails = useQuery(GET_ACCOUNT_DETAILS, {variables: {accountId: parseInt(loanAccountId)}})
+    const [disburse, result] = useMutation(DISBURSE_LOAN_MUTATION)
 
     const [temporalySchedule, setTemporalySchedule] = useState([])
+    const [showApprovalModal, setShowApprovalModal] = useState(false)
+    const [showDisburseModal, setShowDisburseModal] = useState(false)
 
     function generateSchedule(principal, period, interest) {
-        console.log("Principal", principal)
-        console.log("Period", period)
-        console.log("Interest", interest)
         return amortizationSchedule(principal, period, interest)
     }
 
@@ -92,7 +108,19 @@ function Loan(props) {
     return (
         <Nav>
             <div>
-                <p className="font-bold text-2xl text-gray-700 inline">{loanDetails?.account.name}</p>
+                <div>
+                    <p className="font-bold text-2xl text-gray-700 inline">{loanDetails?.account.name}</p>
+                    <span className="float-right">
+                        <button disabled={loanDetails?.account.loanDetail.status === "Approved" || loanDetails?.account.loanDetail.status === "Disbursed"} onClick={() => setShowApprovalModal(true)} className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Approve</button>
+                        <button disabled={loanDetails?.account.loanDetail.status !== "Approved" || loanDetails?.account.loanDetail.status === "Disbursed"} onClick={() => setShowDisburseModal(true)} className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Disburse</button>
+                        <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Write off</button>
+                        <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Clear</button>
+                    </span>
+
+                </div>
+                {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal}/>}
+                {showDisburseModal && <Disburse loanDetails={loanDetails} close={setShowDisburseModal} installments={JSON.stringify(temporalySchedule)} loading={result.loading} error={result.error} submit={disburse}/>}
+
                 <div className="my-2 p-4 rounded overflow-hidden shadow-lg h-auto text-gray-600 text-lg">
                     <div className="flex">
                         <div className="flex-1">
@@ -122,7 +150,9 @@ function Loan(props) {
                     <Entries entries={loanDetails?.account.entries}/>
                 </div>
 
-                {loanDetails?.account.loanDetail.status === "Disbursed" ? <Installments installments={loanDetails?.account.loanInstallments} scheduleTitle="Installments"/> : <Installments installments={temporalySchedule} scheduleTitle="Temporal Schedule"/>}
+                {loanDetails?.account.loanDetail.status === "Disbursed" ?
+                    <Installments installments={loanDetails?.account.loanInstallments} scheduleTitle="Installments"/> :
+                    <Installments installments={temporalySchedule} scheduleTitle="Temporal Schedule"/>}
 
             </div>
         </Nav>

@@ -5,7 +5,7 @@ import Error from "../components/Error";
 import {Link} from "react-router-dom";
 import {Balance} from "./balance";
 
-const GET_CUSTOMER_WALLETS = gql`
+export const GET_CUSTOMER_WALLETS = gql`
     query getAccounts ($customerId: Int!){
         accounts(customerId: $customerId, matching: "Wallet"){
             accountNumber

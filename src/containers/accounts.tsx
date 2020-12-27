@@ -1,10 +1,9 @@
 import React from "react";
 import {Nav} from "../components/Nav";
 import {gql, useQuery} from "@apollo/client";
-import {AccountPage} from "./accountPage";
 import {AccountsPage} from "./accountsPage";
 
-const GET_ACCOUNTS_QUERY = gql`
+export const GET_ACCOUNTS_QUERY = gql`
     query getAccounts($type: String, $clientId: Int!, $matching: String) {
         accounts(type: $type, clientId: $clientId, matching: $matching) {
             id

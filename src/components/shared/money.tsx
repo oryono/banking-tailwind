@@ -7,7 +7,7 @@ interface Props {
 }
 export function Money({money, color}: Props) {
     return (
-        <span className={`px-2 inline-flex ${color ? color : "text-gray-600"}`}>
+        <span className={`inline-flex ${color ? color : "text-gray-600"}`}>
              {formatCurrency(money)}
         </span>
     )

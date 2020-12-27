@@ -5,7 +5,7 @@ import {LoansPage} from "./loansPage";
 
 const GET_LOANS_QUERY = gql`
     query getLoans($clientId: Int!) {
-        accounts(type: "asset", clientId: $clientId, matching: "Loan") {
+        accounts(clientId: $clientId, matching: "Loan") {
             id
             name
             accountNumber
