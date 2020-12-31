@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {ApolloError, gql, MutationFunctionOptions, useQuery} from "@apollo/client";
 import {Money} from "../components/shared/money";
 import {GET_CUSTOMER_WALLETS} from "./wallets";
-import {GET_ACCOUNTS_QUERY} from "./accounts";
 
 
 interface Props {
@@ -23,12 +22,9 @@ interface FormData {
 }
 
 export function Disburse({close, loading, error, submit, loanDetails, installments}: Props) {
-    const client = JSON.parse(localStorage.getItem("client"))
     const walletInfo = useQuery(GET_CUSTOMER_WALLETS, {variables: {customerId: parseInt(loanDetails.account.customer.id), matching: "Wallet: "}})
-    const assetAccountsInfo = useQuery(GET_ACCOUNTS_QUERY, {variables: {clientId: parseInt(client.id), type: "asset"}})
 
     const [wallets, setWallets] = useState([])
-    const [assets, setAssets] = useState([])
 
     const [form, setForm] = useState({disbursementAccountId: null, disbursementAmount: loanDetails.account.loanDetail.approvedAmount, loanAccountId: loanDetails.account.id, loanStandingOrderAccountId: null, installments: installments})
 
@@ -37,12 +33,6 @@ export function Disburse({close, loading, error, submit, loanDetails, installmen
             setWallets(walletInfo.data.accounts)
         }
     }, [walletInfo.data, walletInfo.loading])
-
-    React.useEffect(() => {
-        if (!assetAccountsInfo.loading && assetAccountsInfo.data) {
-            setAssets(assetAccountsInfo.data.accounts)
-        }
-    }, [assetAccountsInfo.loading, assetAccountsInfo.data])
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -79,7 +69,7 @@ export function Disburse({close, loading, error, submit, loanDetails, installmen
                             <div className="relative px-6 flex-auto">
                                 <div className="ml-1 my-2 relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
                                     <label htmlFor="">
-                                        <Money money={loanDetails.account.loanDetail.approvedAmount} color="text-green-600"/>. Where should funds be disbursed?
+                                        <Money money={loanDetails.account.loanDetail.approvedAmount} color="text-green-600"/> will be disbursed. Where should funds be disbursed?
                                     </label>
                                     <select
                                         required

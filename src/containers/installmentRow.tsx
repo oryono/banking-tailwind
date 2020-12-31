@@ -1,5 +1,6 @@
 import React from "react";
 import {Money} from "../components/shared/money";
+import moment from "moment";
 
 export function InstallmentRow({installment}) {
     return (
@@ -28,7 +29,7 @@ export function InstallmentRow({installment}) {
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                                {installment.paymentDate}
+                                {moment(installment.paymentDate).format("MM/DD/YY")}
                             </span>
             </td>
         </tr>

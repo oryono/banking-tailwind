@@ -82,12 +82,21 @@ const DISBURSE_LOAN_MUTATION = gql`
     }
 `
 
+const APPROVE_LOAN_MUTATION = gql`
+    mutation approveLoan($approvalJustification: String!, $approvedAmount: Int!, $loanAccountId: Int!) {
+        approveLoan(approvalJustification: $approvalJustification, approvedAmount: $approvedAmount, loanAccountId: $loanAccountId) {
+            message
+        }
+    }
+`
+
 function Loan(props) {
     const loanAccountId = props.match.params.id
     const [loanDetails, seLoanDetails] = useState()
 
     const loanAccountDetails = useQuery(GET_ACCOUNT_DETAILS, {variables: {accountId: parseInt(loanAccountId)}})
     const [disburse, result] = useMutation(DISBURSE_LOAN_MUTATION)
+    const [approve, approvalResult] = useMutation(APPROVE_LOAN_MUTATION)
 
     const [temporalySchedule, setTemporalySchedule] = useState([])
     const [showApprovalModal, setShowApprovalModal] = useState(false)
@@ -118,7 +127,7 @@ function Loan(props) {
                     </span>
 
                 </div>
-                {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal}/>}
+                {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal} submit={approve} loading={approvalResult.loading} error={approvalResult.error}/>}
                 {showDisburseModal && <Disburse loanDetails={loanDetails} close={setShowDisburseModal} installments={JSON.stringify(temporalySchedule)} loading={result.loading} error={result.error} submit={disburse}/>}
 
                 <div className="my-2 p-4 rounded overflow-hidden shadow-lg h-auto text-gray-600 text-lg">
@@ -129,7 +138,7 @@ function Loan(props) {
                             </div>
                             <div className="py-1">Disbursed
                                 Amount: {loanDetails?.account.loanDetail.status !== "Disbursed" ?
-                                    <span>Not disbursed</span> : <span>{formatCurrency(100000)}</span>}</div>
+                                    <span>Not disbursed</span> : <span>{formatCurrency(loanDetails?.account.loanDetail.approvedAmount)}</span>}</div>
                             <div className="py-1">Outstanding
                                 Balance: {loanDetails?.account.loanDetail.status !== "Disbursed" ?
                                     <span>Not disbursed</span> :

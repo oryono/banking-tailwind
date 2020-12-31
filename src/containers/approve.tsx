@@ -2,15 +2,27 @@ import React, {useState} from "react";
 import {ApolloError, MutationFunctionOptions} from "@apollo/client";
 import {Money} from "../components/shared/money";
 
-
 interface Props {
-    // submit(data: MutationFunctionOptions): void;
+    submit(data: MutationFunctionOptions<any, unknown>): void;
     close?: React.Dispatch<React.SetStateAction<any>>
     loading?: boolean;
     error?: ApolloError;
     loanDetails: any
 }
-export function Approve({close, loading, error, loanDetails}: Props) {
+
+interface FormData {
+    approvedAmount: string;
+    approvalJustification: string;
+    loanAccountId: string;
+}
+export function Approve({close, loading, error, loanDetails, submit}: Props) {
+    const [form, setForm] = useState<FormData>({loanAccountId: loanDetails.account.id, approvalJustification: "", approvedAmount: loanDetails.account.loanDetail.totalPrincipal})
+
+    function handleChange(event) {
+        const { name, value } = event.target;
+        form[name] = value
+        setForm({...form})
+    }
     return (
         <div>
             <div
@@ -36,7 +48,7 @@ export function Approve({close, loading, error, loanDetails}: Props) {
                             </button>
                         </div>
                         { error ? <div className="text-pink-300 px-6 pt-2">{error.message }</div> : null}
-                        <form action="" onSubmit={(e) => {e.preventDefault();}}>
+                        <form action="" onSubmit={(e) => {e.preventDefault(); submit({variables: {approvalJustification: form.approvalJustification, approvedAmount: parseInt(form.approvedAmount), loanAccountId: parseInt(form.loanAccountId)}})}}>
                             <div className="relative px-6 flex-auto">
                                 <div className="my-4 text-gray-600 text-lg leading-relaxed w-full">
                                     <label htmlFor="">
@@ -44,9 +56,10 @@ export function Approve({close, loading, error, loanDetails}: Props) {
                                     </label>
                                     <p className="text-sm text-gray-500">You can approve upto <Money money={loanDetails.account.loanDetail.totalPrincipal} color="text-green-600"/></p>
                                     <input
-                                        name="amount"
+                                        name="approvedAmount"
                                         type="number"
-                                        defaultValue={loanDetails.account.loanDetail.totalPrincipal}
+                                        value={form.approvedAmount}
+                                        onChange={handleChange}
                                         required
                                         className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
                                     />
@@ -57,9 +70,11 @@ export function Approve({close, loading, error, loanDetails}: Props) {
                                         Justification
                                     </label>
                                     <textarea
-                                        name="narration"
+                                        name="approvalJustification"
+                                        value={form.approvalJustification}
+                                        onChange={handleChange}
                                         required
-                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
                                     />
                                 </div>
                             </div>
