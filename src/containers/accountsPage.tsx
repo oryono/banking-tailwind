@@ -1,13 +1,26 @@
 import {QueryResult} from "@apollo/client";
-import React from "react";
+import React, {useState} from "react";
 import {Loading} from "../components/Loading";
 import Error from "../components/Error";
 import {AccountsList} from "./accountsList";
 
-export function AccountsPage({accountsInfo}: {accountsInfo: QueryResult}) {
+type Type = "asset" | "liability" | "expense" | "income" | "equity"
+interface Filter {
+    matching: string;
+    type: Type
+}
+export function AccountsPage({accountsInfo, setFilters}: {accountsInfo: QueryResult, setFilters}) {
+    const [filter, setFilter] = useState<Filter>({matching: "", type: "liability"})
+
     if (accountsInfo.loading) return <Loading message="Loading transactions"/>
     if (accountsInfo.error) return <Error error={accountsInfo.error}/>
 
+    function handleChange(event) {
+        const { name, value } = event.target;
+        filter[name] = value
+        setFilter({...filter})
+        setFilters(filter)
+    }
     return (
         <div className="mb-4">
             <p className="font-bold text-2xl text-gray-700">Accounts</p>
@@ -25,15 +38,20 @@ export function AccountsPage({accountsInfo}: {accountsInfo: QueryResult}) {
                                 </svg>
                             </span>
                             <input
-                                name="email"
-                                type="email"
-                                placeholder="Matching..."
+                                onChange={handleChange}
+                                name="matching"
+                                type="text"
+                                autoFocus
+                                defaultValue={filter.matching}
+                                placeholder="Name Matching..."
                                 className="appearance-none border rounded px-1 py-1 relative focus:outline-none focus:shadow-outline-blue focus:border-blue-300 pl-8 w-full"
                             />
                         </div>
 
                         <div className="relative flex w-full flex-wrap items-stretch m-2">
                             <select
+                                name="type"
+                                onChange={handleChange}
                                 className="block appearance-none border border-gray-200 text-gray-700 px-2 py-1 pr-8 rounded bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
                                 <option value="liability">Liability</option>
                                 <option value="asset">Asset</option>

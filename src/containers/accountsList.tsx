@@ -1,5 +1,4 @@
 import React from "react";
-import {EntryRow} from "../components/EntryRow";
 import {AccountRow} from "../components/AccountRow";
 
 export function AccountsList({accounts}) {
@@ -25,7 +24,7 @@ export function AccountsList({accounts}) {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                     {
-                        accounts.map(account => <AccountRow account={account}/>)
+                        accounts.map(account => <AccountRow key={account.id} account={account}/>)
                     }
                     </tbody>
                 </table>

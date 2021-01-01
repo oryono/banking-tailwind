@@ -11,7 +11,7 @@ export function AccountRow({account}) {
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                              {account.name}
+                              <a className="hover:underline" href={`/accounts/${account.id}`}>{account.name}</a>
                             </span>
             </td>
 

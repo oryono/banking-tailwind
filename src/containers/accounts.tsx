@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Nav} from "../components/Nav";
 import {gql, useQuery} from "@apollo/client";
 import {AccountsPage} from "./accountsPage";
@@ -15,17 +15,24 @@ export const GET_ACCOUNTS_QUERY = gql`
     }
 `
 
+type Type = "asset" | "liability" | "expense" | "income" | "equity"
+interface Filter {
+    matching: string;
+    type: Type
+}
+
 export function Accounts() {
+    const [filters, setFilters] = useState<Filter>({type: "liability", matching: ""})
     const accountsInfo = useQuery(GET_ACCOUNTS_QUERY, {
         variables: {
-            type: "liability",
-            matching: "",
+            type: filters.type,
+            matching: filters.matching,
             clientId: parseInt(JSON.parse(localStorage.getItem("client")).id)
         }
     })
     return (
         <Nav>
-            <AccountsPage accountsInfo={accountsInfo}/>
+            <AccountsPage accountsInfo={accountsInfo} setFilters={setFilters}/>
         </Nav>
     )
 }
