@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {Link, Redirect, useLocation} from "react-router-dom";
-import {gql, useMutation, useQuery} from "@apollo/client";
+import {gql, useMutation} from "@apollo/client";
 import {Loading} from "../components/Loading";
 import Error from "../components/Error";
 
 const SIGNIN_MUTATION = gql`
-  mutation SignIn($email: String!, $password: String!, $clientId: Int!) {
-    signIn(email: $email, password: $password, clientId: $clientId) {
+  mutation SignIn($username: String!, $password: String!, $clientId: Int!) {
+    signIn(username: $username, password: $password, clientId: $clientId) {
       token
       user {
         id
-        email
+        username
         clientId
         customer{
           id
@@ -31,12 +31,12 @@ export function Login(props) {
   let { from } = location.state || { from: { pathname: "/" } };
   const client = JSON.parse(localStorage.getItem("client"))
   const [login, { data, loading, error }] = useMutation(SIGNIN_MUTATION, {errorPolicy: "all"});
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   function handleChange(event) {
-    if (event.target.name === "email") {
-      setEmail(event.target.value)
+    if (event.target.name === "username") {
+      setUsername(event.target.value)
     }
     if (event.target.name === "password") {
       setPassword(event.target.value)
@@ -49,7 +49,7 @@ export function Login(props) {
 
   if (data && data.signIn) {
     localStorage.setItem("token", data.signIn.token)
-    localStorage.setItem("user", data.signIn.user.email)
+    localStorage.setItem("user", data.signIn.user.username)
     return <Redirect to={from}/>
   }
 
@@ -69,16 +69,16 @@ export function Login(props) {
           </h2>
         </div>
         {error ? <Error error={error}/> : null}
-        <form className="mt-8" onSubmit={(e) => {e.preventDefault(); login({variables: {email: email, password: password, clientId: parseInt(client.id)}})}}>
+        <form className="mt-8" onSubmit={(e) => {e.preventDefault(); login({variables: {username: username, password: password, clientId: parseInt(client.id)}})}}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md">
             <div>
               <input
-                name="email"
-                type="email"
+                name="username"
+                type="text"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:shadow-outline-gray focus:border-gray-300 sm:text-sm sm:leading-5"
-                placeholder="Email"
+                placeholder="Username"
                 onChange={handleChange}
               />
             </div>

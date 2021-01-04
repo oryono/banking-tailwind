@@ -7,7 +7,6 @@ const GET_CURRENT_USER_QUERY = gql`
   query GetCurrentUser {
     me {
       id
-      email
       clientId
       customer{
         id
