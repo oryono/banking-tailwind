@@ -82,11 +82,11 @@ export default function App() {
             <Route path="/settings/loan-products" exact>
               <LoanProducts />
             </Route>
-            <Route path="/loans" exact>
-              <AllLoans />
-            </Route>
             <Route path="/loans/:id" exact>
               <Loan/>
+            </Route>
+            <Route path="/loans" exact>
+              <AllLoans />
             </Route>
             <Route path="/reports/transactions" exact>
               <Transactions />

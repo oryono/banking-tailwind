@@ -19,7 +19,6 @@ const GET_ACCOUNT_DETAILS = gql`
                 teller {
                     id
                     name
-                    email
                     id
                 }
                 entries{
@@ -113,7 +112,7 @@ function Loan(props) {
         }
     }, [loanAccountDetails.loading, loanAccountDetails.data, loanDetails])
 
-    if (loanAccountDetails.loading) return <Loading/>
+    if (loanAccountDetails.loading) return null
     return (
         <Nav>
             <div>
@@ -125,7 +124,6 @@ function Loan(props) {
                         <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Write off</button>
                         <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Clear</button>
                     </span>
-
                 </div>
                 {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal} submit={approve} loading={approvalResult.loading} error={approvalResult.error}/>}
                 {showDisburseModal && <Disburse loanDetails={loanDetails} close={setShowDisburseModal} installments={JSON.stringify(temporalySchedule)} loading={result.loading} error={result.error} submit={disburse}/>}
