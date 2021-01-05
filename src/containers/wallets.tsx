@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {gql, useQuery} from "@apollo/client";
 import {PuffLoader} from "react-spinners";
 import Error from "../components/Error";
@@ -16,13 +16,7 @@ export const GET_CUSTOMER_WALLETS = gql`
 `
 
 export function Wallets(props) {
-    const {data, loading, error, refetch} = useQuery(GET_CUSTOMER_WALLETS, {fetchPolicy: "network-only", variables: {customerId: parseInt(props.customerId)}})
-
-    React.useEffect(() => {
-        if (props.refetchWallets) {
-            refetch();
-        }
-    }, [props.refetchWallets, refetch])
+    const {data, loading, error} = useQuery(GET_CUSTOMER_WALLETS, {fetchPolicy: "network-only", variables: {customerId: parseInt(props.customerId)}})
 
     if (loading) return (
         <div className="flex">

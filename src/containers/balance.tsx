@@ -11,7 +11,14 @@ const GET_ACCOUNT_DETAILS = gql`
     }
 `;
 export function Balance(props) {
-    const {data, error, loading} = useQuery(GET_ACCOUNT_DETAILS, { fetchPolicy: "network-only", variables: { accountId: parseInt(props.accountId) }})
+    const {data, error, loading, refetch} = useQuery(GET_ACCOUNT_DETAILS, { fetchPolicy: "network-only", variables: { accountId: parseInt(props.accountId) }})
+
+    React.useEffect(() => {
+        if (props.refetchBalance) {
+            console.log("Getting balance")
+            refetch()
+        }
+    }, [props.refetchBalance, refetch])
 
     if (loading) return <span>Loading...</span>
     if (error) return <Error error={error}/>

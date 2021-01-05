@@ -5,11 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ApolloProvider} from "@apollo/client";
 import client from "./client";
+import {Toast} from "./components/utils/Toast";
 
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
             <App/>
+            <Toast/>
         </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root')

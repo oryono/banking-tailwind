@@ -10,6 +10,9 @@ import {Withdraw} from "./withdraw";
 import {NewWallet} from "./newWallet";
 import {NewLoanApplication} from "./newLoanApplication";
 
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 const CREATE_DEPOSIT_MUTATION = gql`
     mutation createDeposit($amount: Int!, $walletId: Int!) {
         createDeposit(amount: $amount, walletId: $walletId) {
@@ -70,13 +73,25 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
     const [ createWallet, createWalletResult] = useMutation(CREATE_WALLET_MUTATION)
     const [ createLoanApplication, createLoanApplicationResult] = useMutation(CREATE_LOAN_APPLICATION_MUTATION, {errorPolicy: "all"})
     
-    const [refetchWallets, setRefetchWallets] = useState(false)
-
     React.useEffect(() => {
-        if (depositResult.data?.createDeposit != null || depositResult.data?.createWithdrawal != null) {
-            setRefetchWallets(true)
+        if (depositResult.data?.createDeposit != null ) {
+            const properties = {
+                message: "Deposit Successful",
+                type: "success"
+            }
+            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+            window.location.reload();
         }
-    }, [depositResult.data, withdrawalResult.data])
+
+        if (withdrawalResult.data?.createWithdrawal != null) {
+            const properties = {
+                message: "Withdrawal Successful",
+                type: "success"
+            }
+            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+            window.location.reload();
+        }
+    }, [customerInfo, depositResult.data, withdrawalResult.data])
 
     if (customerInfo.loading) return (
         <div className="flex">
@@ -101,7 +116,7 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
                         <CustomerCard customer={customerInfo.data.customer}/>
                     </div>
                     <div className="w-3/4 px-4">
-                        <Wallets customerId={customerInfo.data.customer.id} showDepositModal={setShowDepositModal} showWithdrawalModal={setShowWithdrawalModal} refetchWallets={refetchWallets} showNewWalletModal={setShowNewWalletModal}/>
+                        <Wallets customerId={customerInfo.data.customer.id} showDepositModal={setShowDepositModal} showWithdrawalModal={setShowWithdrawalModal} showNewWalletModal={setShowNewWalletModal}/>
                         <Loans customerId={customerInfo.data.customer.id} setShowLoanApplicationModal={setShowLoanApplicationModal}/>
                     </div>
                 </div>
