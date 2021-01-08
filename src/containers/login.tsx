@@ -43,10 +43,6 @@ export function Login(props) {
     }
   }
 
-  if (loading) {
-    return <Loading message="Logging in..."/>
-  }
-
   if (data && data.signIn) {
     localStorage.setItem("token", data.signIn.token)
     localStorage.setItem("user", data.signIn.user.username)
@@ -68,7 +64,7 @@ export function Login(props) {
             Sign in to your account
           </h2>
         </div>
-        {error ? <Error error={error}/> : null}
+        {error ? <span className="text-red-400"><Error error={error}/></span> : null}
         <form className="mt-8" onSubmit={(e) => {e.preventDefault(); login({variables: {username: username, password: password, clientId: parseInt(client.id)}})}}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md">
@@ -118,7 +114,7 @@ export function Login(props) {
           </div>
 
           <div className="mt-6">
-            <button
+            <button disabled={loading}
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-green-600 hover:bg-green-500 focus:outline-none transition duration-150 ease-in-out"
             >
@@ -135,7 +131,7 @@ export function Login(props) {
                   />
                 </svg>
               </span>
-              Sign in
+              {loading ? "logging in..." : "Sign in"}
             </button>
           </div>
         </form>

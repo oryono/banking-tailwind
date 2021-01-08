@@ -72,26 +72,6 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
     const [ withdraw, withdrawalResult] = useMutation(CREATE_WITHDRAWAL_MUTATION, { errorPolicy: "all"})
     const [ createWallet, createWalletResult] = useMutation(CREATE_WALLET_MUTATION)
     const [ createLoanApplication, createLoanApplicationResult] = useMutation(CREATE_LOAN_APPLICATION_MUTATION, {errorPolicy: "all"})
-    
-    React.useEffect(() => {
-        if (depositResult.data?.createDeposit != null ) {
-            const properties = {
-                message: "Deposit Successful",
-                type: "success"
-            }
-            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
-            window.location.reload();
-        }
-
-        if (withdrawalResult.data?.createWithdrawal != null) {
-            const properties = {
-                message: "Withdrawal Successful",
-                type: "success"
-            }
-            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
-            window.location.reload();
-        }
-    }, [customerInfo, depositResult.data, withdrawalResult.data])
 
     if (customerInfo.loading) return (
         <div className="flex">
@@ -105,7 +85,7 @@ export function CustomerPage({customerInfo, customerId}: {customerInfo: QueryRes
             { showNewWalletModal ? <NewWallet close={setShowNewWalletModal} submit={createWallet} loading={createWalletResult.loading} error={createWalletResult.error} customerId={customerId}/> : null}
             { showDepositModal.show ? <Deposit close={setShowDepositModal} account={showDepositModal.account} submit={deposit} loading={depositResult.loading} error={depositResult.error} data={depositResult.data}/> : null }
             { showWithdrawalModal.show ? <Withdraw close={setShowWithdrawalModal} account={showWithdrawalModal.account} submit={withdraw} loading={withdrawalResult.loading} error={withdrawalResult.error} data={withdrawalResult.data}/> : null }
-            { showLoanApplicationModal ? <NewLoanApplication customerId={customerId} close={() => setShowLoanApplicationModal(false)} error={createLoanApplicationResult.error} loading={createLoanApplicationResult.loading} submit={createLoanApplication}/> : null}
+            { showLoanApplicationModal ? <NewLoanApplication customerId={customerId} close={() => setShowLoanApplicationModal(false)} error={createLoanApplicationResult.error} loading={createLoanApplicationResult.loading} submit={createLoanApplication} data={createLoanApplicationResult.data}/> : null}
             <div className="mb-4">
                 <p className="font-bold text-2xl text-gray-700">
                     {customerInfo.data.customer.name}

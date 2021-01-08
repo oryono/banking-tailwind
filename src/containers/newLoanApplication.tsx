@@ -1,7 +1,11 @@
 import React, {useState} from "react";
 import {ApolloError, gql, MutationFunctionOptions, useQuery} from "@apollo/client";
-import {Loading} from "../components/Loading";
 import {amortizationSchedule} from "../utils/amortization";
+import {formatCurrency} from "../utils/currency";
+
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 
 const GET_LOAN_PRODUCTS_QUERY = gql`
@@ -33,10 +37,11 @@ interface Props {
     loading: boolean;
     error: ApolloError;
     customerId: number;
+    data: any
 
 }
 
-export function NewLoanApplication({customerId, submit, loading, close, error}: Props) {
+export function NewLoanApplication({customerId, submit, loading, close, error, data}: Props) {
     const client = JSON.parse(localStorage.getItem("client"))
     const loanProductsInfo = useQuery(GET_LOAN_PRODUCTS_QUERY, {
         variables: {clientId: parseInt(client.id)},
@@ -73,6 +78,15 @@ export function NewLoanApplication({customerId, submit, loading, close, error}: 
         return amortizationSchedule(principal, period, interest)
     }
 
+    if (data?.applyForLoan) {
+        const properties = {
+            message: `Loan Application of ${formatCurrency(parseInt(form.loanAmount))} was successful.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), {path: '/'});
+        window.location.reload();
+    }
+
     return (
         <div>
             <div
@@ -97,20 +111,32 @@ export function NewLoanApplication({customerId, submit, loading, close, error}: 
                                 </svg>
                             </button>
                         </div>
-                        {loanProductsInfo.loading ? <Loading/> :
-                            <form action="" onSubmit={(e) => {
-                                e.preventDefault();
-                                submit({variables: {customerId: customerId, clientId: parseInt(client.id), duration: parseInt(form.loanDuration), amount: parseInt(form.loanAmount), installments: JSON.stringify(schedule), interestRate: parseInt(form.interestRate), loanProductId: parseInt(form.loanProductId), loanPurpose: form.loanPurpose}})
-                            }}>
-                                <div className="relative px-6 flex-auto">
-                                    <div className="my-2 text-gray-600 text-lg leading-relaxed w-full">
-                                        <div
-                                            className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                            <label htmlFor="">
-                                                Loan Product
-                                            </label>
+                        { error ? <div className="text-pink-300 px-6 pt-2">{error.message }</div> : null}
+                        <form action="" onSubmit={(e) => {
+                            e.preventDefault();
+                            submit({
+                                variables: {
+                                    customerId: customerId,
+                                    clientId: parseInt(client.id),
+                                    duration: parseInt(form.loanDuration),
+                                    amount: parseInt(form.loanAmount),
+                                    installments: JSON.stringify(schedule),
+                                    interestRate: parseInt(form.interestRate),
+                                    loanProductId: parseInt(form.loanProductId),
+                                    loanPurpose: form.loanPurpose
+                                }
+                            })
+                        }}>
+                            <div className="relative px-6 flex-auto">
+                                <div className="my-2 text-gray-600 text-lg leading-relaxed w-full">
+                                    <div
+                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                        <label htmlFor="" className="block">
+                                            Loan Product
+                                        </label>
 
-                                            <select
+                                        {
+                                            loanProductsInfo.loading ? <div className="block"> Loading...</div> :                                         <select
                                                 required
                                                 onChange={handleChange}
                                                 name="loanProductId"
@@ -120,87 +146,83 @@ export function NewLoanApplication({customerId, submit, loading, close, error}: 
                                                                                      key={product.id}>{product.name}</option>)}
 
                                             </select>
-                                            <div
-                                                className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
-                                                {/*<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"*/}
-                                                {/*     xmlns="http://www.w3.org/2000/svg">*/}
-                                                {/*    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}*/}
-                                                {/*          d="M19 9l-7 7-7-7"/>*/}
-                                                {/*</svg>*/}
-                                            </div>
-                                        </div>
+                                        }
                                         <div
-                                            className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                            <label htmlFor="">
-                                                Amount
-                                            </label>
-                                            <input
-                                                name="loanAmount"
-                                                type="number"
-                                                required
-                                                onChange={handleChange}
-                                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
-                                            />
-                                        </div>
-
-                                        <div
-                                            className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                            <label htmlFor="">
-                                                Loan Duration
-                                            </label>
-                                            <input
-                                                name="loanDuration"
-                                                type="number"
-                                                required
-                                                onChange={handleChange}
-                                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
-                                            />
-                                        </div>
-
-                                        <div
-                                            className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                            <label htmlFor="">
-                                                Interest Rate
-                                            </label>
-                                            <input
-                                                name="interestRate"
-                                                type="number"
-                                                required
-                                                onChange={handleChange}
-                                                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
-                                            />
-                                        </div>
-                                        <div
-                                            className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                            <label htmlFor="">
-                                                Loan Purpose
-                                            </label>
-
-                                            <select
-                                                required
-                                                onChange={handleChange}
-                                                name="loanPurpose"
-                                                className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
-                                                <option value="">Select</option>
-                                                <option value="Asset Finance">Asset Finance</option>
-                                                <option value="Education">Education</option>
-                                                <option value="Agriculture">Agriculture</option>
-                                                <option value="Other">Other</option>
-                                            </select>
+                                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
                                         </div>
                                     </div>
+                                    <div
+                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                        <label htmlFor="">
+                                            Amount
+                                        </label>
+                                        <input
+                                            name="loanAmount"
+                                            type="number"
+                                            required
+                                            onChange={handleChange}
+                                            className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        />
+                                    </div>
 
+                                    <div
+                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                        <label htmlFor="">
+                                            Loan Duration
+                                        </label>
+                                        <input
+                                            name="loanDuration"
+                                            type="number"
+                                            required
+                                            onChange={handleChange}
+                                            className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        />
+                                    </div>
+
+                                    <div
+                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                        <label htmlFor="">
+                                            Interest Rate
+                                        </label>
+                                        <input
+                                            name="interestRate"
+                                            type="number"
+                                            required
+                                            onChange={handleChange}
+                                            className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        />
+                                    </div>
+                                    <div
+                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                        <label htmlFor="">
+                                            Loan Purpose
+                                        </label>
+
+                                        <select
+                                            required
+                                            onChange={handleChange}
+                                            name="loanPurpose"
+                                            className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
+                                            <option value="">Select</option>
+                                            <option value="Asset Finance">Asset Finance</option>
+                                            <option value="Education">Education</option>
+                                            <option value="Agriculture">Agriculture</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div className="flex items-center justify-end p-3 rounded-b">
-                                    <button
-                                        className="bg-green-500 text-white active:bg-green-600 text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="submit"
-                                        disabled={false}
-                                    >
-                                        Apply
-                                    </button>
-                                </div>
-                            </form>}
+
+                            </div>
+                            <div className="flex items-center justify-end p-3 rounded-b">
+                                <button
+                                    className="bg-green-500 text-white active:bg-green-600 text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                    type="submit"
+                                    disabled={false}
+                                >
+                                    Apply
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
                 </div>

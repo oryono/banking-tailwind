@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {ApolloError, MutationFunctionOptions} from "@apollo/client";
-import Error from "../components/Error";
+import {formatCurrency} from "../utils/currency";
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 
 interface Props {
@@ -18,6 +20,14 @@ export function Withdraw({close, account, submit, loading, error, data}: Props) 
     function handleChange(event) {
         if (event.target.name === "amount") setAmount(event.target.value)
         if (event.target.name === "narration") setNarration(event.target.value)
+    }
+    if (data?.createWithdrawal) {
+        const properties = {
+            message: `Withdrawal of ${formatCurrency(amount)} was successful.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+        window.location.reload();
     }
     return (
         <div>
@@ -43,7 +53,6 @@ export function Withdraw({close, account, submit, loading, error, data}: Props) 
                                 </svg>
                             </button>
                         </div>
-                        { data?.createWithdrawal != null ? <div className="text-green-600 px-6 pt-2">Withdrawal was successful</div> : null}
                         { error ? <div className="text-pink-300 px-6 pt-2">{error.message }</div> : null}
                         <form action="" onSubmit={(e) => {e.preventDefault(); submit({ variables: {walletId: parseInt(account), amount: amount}})}}>
                             <div className="relative px-6 flex-auto">
@@ -56,7 +65,7 @@ export function Withdraw({close, account, submit, loading, error, data}: Props) 
                                         type="number"
                                         required
                                         onChange={handleChange}
-                                        className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
                                     />
                                 </div>
 
@@ -68,7 +77,7 @@ export function Withdraw({close, account, submit, loading, error, data}: Props) 
                                         name="narration"
                                         required
                                         onChange={handleChange}
-                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
                                     />
                                 </div>
                             </div>

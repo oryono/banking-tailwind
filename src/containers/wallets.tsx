@@ -32,13 +32,8 @@ export function Wallets(props) {
             <div className="flex justify-between">
                 <p className="font-bold text-xl text-gray-700">Wallets</p>
                 <span className="float-right">
-                    <button type="button" onClick={() => props.showNewWalletModal(true)}>
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                        </svg>
+                    <button type="button" onClick={() => props.showNewWalletModal(true)} className="p-1 focus:outline-none">
+                        <span className="text-2xl">+</span>New Wallet
                     </button>
                 </span>
             </div>
@@ -48,7 +43,7 @@ export function Wallets(props) {
                     <div className="flex justify-between my-2 border-t" key={account.id}>
                         <div>
                             <div>
-                                <p className="text-xl text-gray-600 inline"><Link to={`/accounts/${account.id}`}>{account.name}</Link></p>
+                                <p className="text-xl text-gray-600 inline"><Link className="hover:underline hover:text-blue-400" to={`/accounts/${account.id}`}>{account.name}</Link></p>
                             </div>
                             <div>
                                 <p className="text-xl text-gray-400 inline">{account.accountNumber}</p>
@@ -58,8 +53,8 @@ export function Wallets(props) {
                         <div className="flex flex-col justify-end items-end">
                             <div className=""><Balance accountId={account.id}/></div>
                             <div className="flex space-x-2">
-                                <span><button className="focus:outline-none" type="button" onClick={() => props.showDepositModal({show: true, account: account.id}) }>Deposit</button></span>
-                                <span><button className="focus:outline-none" type="button" onClick={() => props.showWithdrawalModal({show: true, account: account.id}) }>Withdraw</button></span>
+                                <span><button className="focus:outline-none " type="button" onClick={() => props.showDepositModal({show: true, account: account.id}) }><span className="hover:underline">Deposit</span></button></span>
+                                <span><button className="focus:outline-none" type="button" onClick={() => props.showWithdrawalModal({show: true, account: account.id}) }><span className="hover:underline">Withdraw</span></button></span>
                                 <span><button className="focus:outline-none">Transfer</button></span>
                             </div>
                         </div>

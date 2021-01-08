@@ -3,7 +3,6 @@ import {Nav} from "../components/Nav";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {withRouter} from "react-router-dom";
 import {Installments} from "./installments";
-import {Loading} from "../components/Loading";
 import {formatCurrency} from "../utils/currency";
 import {Entries} from "./entries";
 import {amortizationSchedule} from "../utils/amortization";
@@ -125,8 +124,8 @@ function Loan(props) {
                         <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Clear</button>
                     </span>
                 </div>
-                {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal} submit={approve} loading={approvalResult.loading} error={approvalResult.error}/>}
-                {showDisburseModal && <Disburse loanDetails={loanDetails} close={setShowDisburseModal} installments={JSON.stringify(temporalySchedule)} loading={result.loading} error={result.error} submit={disburse}/>}
+                {showApprovalModal && <Approve loanDetails={loanDetails} close={setShowApprovalModal} submit={approve} loading={approvalResult.loading} error={approvalResult.error} data={approvalResult.data}/>}
+                {showDisburseModal && <Disburse loanDetails={loanDetails} close={setShowDisburseModal} installments={JSON.stringify(temporalySchedule)} loading={result.loading} error={result.error} submit={disburse} data={result.data}/>}
 
                 <div className="my-2 p-4 rounded overflow-hidden shadow-lg h-auto text-gray-600 text-lg">
                     <div className="flex">

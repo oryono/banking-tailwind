@@ -1,13 +1,18 @@
 import React, {useState} from "react";
 import {ApolloError, MutationFunctionOptions} from "@apollo/client";
 import {Money} from "../components/shared/money";
+import {formatCurrency} from "../utils/currency";
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 interface Props {
     submit(data: MutationFunctionOptions<any, unknown>): void;
     close?: React.Dispatch<React.SetStateAction<any>>
     loading?: boolean;
     error?: ApolloError;
-    loanDetails: any
+    loanDetails: any;
+    data: any;
 }
 
 interface FormData {
@@ -15,13 +20,22 @@ interface FormData {
     approvalJustification: string;
     loanAccountId: string;
 }
-export function Approve({close, loading, error, loanDetails, submit}: Props) {
+export function Approve({close, loading, error, loanDetails, submit, data}: Props) {
     const [form, setForm] = useState<FormData>({loanAccountId: loanDetails.account.id, approvalJustification: "", approvedAmount: loanDetails.account.loanDetail.totalPrincipal})
 
     function handleChange(event) {
         const { name, value } = event.target;
         form[name] = value
         setForm({...form})
+    }
+
+    if (data?.approveLoan) {
+        const properties = {
+            message: `Approval of ${formatCurrency(parseInt(form.approvedAmount))} was successful.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), {path: '/'});
+        window.location.reload();
     }
     return (
         <div>

@@ -1,7 +1,11 @@
 import React, {useState} from "react";
-import {ApolloError, gql, MutationFunctionOptions, useQuery} from "@apollo/client";
+import {ApolloError, MutationFunctionOptions, useQuery} from "@apollo/client";
 import {Money} from "../components/shared/money";
 import {GET_CUSTOMER_WALLETS} from "./wallets";
+import {formatCurrency} from "../utils/currency";
+
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 
 interface Props {
@@ -11,6 +15,7 @@ interface Props {
     error?: ApolloError;
     loanDetails?: any;
     installments?: string;
+    data: any;
 }
 
 interface FormData {
@@ -21,7 +26,7 @@ interface FormData {
     installments: string;
 }
 
-export function Disburse({close, loading, error, submit, loanDetails, installments}: Props) {
+export function Disburse({close, loading, error, submit, loanDetails, installments, data}: Props) {
     const walletInfo = useQuery(GET_CUSTOMER_WALLETS, {variables: {customerId: parseInt(loanDetails.account.customer.id), matching: "Wallet: "}})
 
     const [wallets, setWallets] = useState([])
@@ -38,6 +43,15 @@ export function Disburse({close, loading, error, submit, loanDetails, installmen
         const { name, value } = event.target;
         form[name] = value
         setForm({...form})
+    }
+
+    if (data?.disburseLoan) {
+        const properties = {
+            message: `Disbursement of ${formatCurrency(parseInt(form.disbursementAmount))} was successful.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), {path: '/'});
+        window.location.reload();
     }
 
     return (
