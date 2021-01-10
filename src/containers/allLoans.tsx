@@ -32,7 +32,7 @@ interface Filter {
 }
 
 export function AllLoans() {
-    const [filters, setFilters] = useState<Filter>({filter: "", loanStatus: "Disbursed"})
+    const [filters, setFilters] = useState<Filter>({filter: "", loanStatus: ""})
     const client = JSON.parse(localStorage.getItem("client"));
     const loansInfo = useQuery(GET_LOANS_QUERY, {variables: {clientId: parseInt(client.id), matching: "Loan", filter: filters.filter, loanStatus: filters.loanStatus}})
 
@@ -70,6 +70,8 @@ export function AllLoans() {
                                         onChange={handleChange}
                                         value={filters.loanStatus}
                                         className="block appearance-none border text-gray-700 p-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
+                                        <option value="">All</option>
+                                        <option value="Applied">Applied</option>
                                         <option value="Disbursed">Disbursed</option>
                                         <option value="Approved">Approved</option>
                                         <option value="Written Off">Written Off</option>
