@@ -22,7 +22,7 @@ const GET_ENTRIES_QUERY = gql`
             runningBalance
             id
             type
-            inserted_at
+            insertedAt
         }
     }
 `;

@@ -25,7 +25,7 @@ export function CustomerRow({customer}: {customer: CustomerInterface}) {
                 </div>
             </td>
             <td className="px-6 py-4 whitespace-no-wrap">
-                <div className="leading-5 text-gray-900">{customer.gender}</div>
+                <div className="leading-5 text-gray-900 capitalize">{customer.gender}</div>
             </td>
             <td className="px-6 py-4 whitespace-no-wrap">
                 <span

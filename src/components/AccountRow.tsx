@@ -17,7 +17,7 @@ export function AccountRow({account}) {
 
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex">
+                                className="px-2 inline-flex capitalize">
                               {account.type}
                             </span>
             </td>

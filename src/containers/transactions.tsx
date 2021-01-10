@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Nav} from "../components/Nav";
 import {gql, useQuery} from "@apollo/client";
 import {TransactionsPage} from "./transactionsPage";
@@ -21,19 +21,29 @@ const GET_ENTRIES_QUERY = gql`
     }
 `
 
+type Type = "credit" | "debit"
+type Description = "Deposit"
+
+interface Filter {
+    transactionReference: string;
+    type: Type;
+    description: Description;
+}
+
 export function Transactions() {
+    const [filters, setFilters] = useState<Filter>({transactionReference: "", description: "Deposit", type: "credit"})
     const entriesInfo = useQuery(GET_ENTRIES_QUERY, {
         variables: {
             limit: 1000,
             offset: 0,
-            transactionReference: "",
-            transactionType: "credit",
-            transactionDescription: "Deposit"
+            transactionReference: filters.transactionReference,
+            transactionType: filters.type,
+            transactionDescription: filters.description
         }
     })
     return (
         <Nav>
-            <TransactionsPage entriesInfo={entriesInfo}/>
+            <TransactionsPage entriesInfo={entriesInfo} setFilters={setFilters}/>
         </Nav>
     )
 }
