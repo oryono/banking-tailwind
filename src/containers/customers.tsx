@@ -70,7 +70,7 @@ export function Customers() {
                                                                               d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
                                 New Customer
                             </button>
-                    </span> |
+                    </span>
                     <span>
                         <button type="button">
                             <svg className="w-6 h-6 inline-flex" fill="none" stroke="currentColor" viewBox="0 0 24 24"

@@ -158,14 +158,6 @@ export function NewCustomer({close, submit, error, loading}: Props) {
                                             <option value="Female">Female</option>
                                             <option value="Male">Male</option>
                                         </select>
-                                        <div
-                                            className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
-                                            {/*<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"*/}
-                                            {/*     xmlns="http://www.w3.org/2000/svg">*/}
-                                            {/*    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}*/}
-                                            {/*          d="M19 9l-7 7-7-7"/>*/}
-                                            {/*</svg>*/}
-                                        </div>
                                     </div>
                                     <div className="ml-1 relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
                                         <label htmlFor="">
@@ -194,7 +186,7 @@ export function NewCustomer({close, submit, error, loading}: Props) {
                                 <button
                                     className="bg-green-500 text-white active:bg-green-600 text-sm px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                     type="submit"
-                                    disabled={false}
+                                    disabled={loading}
                                 >
                                     Submit Information
                                 </button>
