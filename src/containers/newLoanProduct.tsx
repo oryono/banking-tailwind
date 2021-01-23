@@ -22,6 +22,8 @@ interface FormData {
     paymentFrequency: PaymentFrequency;
     interestRate: string;
     penaltyRate: string;
+    type: string;
+    interestMethod: string;
 }
 
 export function NewLoanProduct({submit, close, loading, error, data}: Props) {
@@ -31,13 +33,24 @@ export function NewLoanProduct({submit, close, loading, error, data}: Props) {
         interestRate: "",
         name: "",
         arrearsPeriod: "",
-        paymentFrequency: "Monthly"
+        paymentFrequency: "Monthly",
+        interestMethod: "Declining Balance",
+        type: "Standard"
     })
 
     function handleChange(event) {
         const {name, value} = event.target;
         form[name] = value
         setForm({...form})
+    }
+
+    if (data?.createLoanProduct) {
+        const properties = {
+            message: `Creation of loan product ${form.name} was successful.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), {path: '/'});
+        window.location.reload();
     }
 
     return (
@@ -74,7 +87,9 @@ export function NewLoanProduct({submit, close, loading, error, data}: Props) {
                                     interestRate: parseFloat(form.interestRate),
                                     name: form.name,
                                     arrearsPeriod: parseInt(form.arrearsPeriod),
-                                    paymentFrequency: form.paymentFrequency
+                                    paymentFrequency: form.paymentFrequency,
+                                    type: form.type,
+                                    interestMethod: form.interestMethod,
                                 }
                             })
                         }}>
@@ -122,34 +137,68 @@ export function NewLoanProduct({submit, close, loading, error, data}: Props) {
                                     </select>
                                 </div>
 
-                                <div className="mb-2 text-gray-600 text-lg leading-relaxed w-full">
-                                    <label htmlFor="">
-                                        Interest Rate
-                                    </label>
-                                    <input
-                                        value={form.interestRate}
-                                        onChange={handleChange}
-                                        name="interestRate"
-                                        type="number"
-                                        required
-                                        className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
-                                    />
+                                <div className="flex">
+                                    <div className="mb-2 text-gray-600 text-lg leading-relaxed w-full mr-1">
+                                        <label htmlFor="">
+                                            Interest Rate
+                                        </label>
+                                        <input
+                                            value={form.interestRate}
+                                            onChange={handleChange}
+                                            name="interestRate"
+                                            type="number"
+                                            required
+                                            className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
+                                        />
+                                    </div>
+
+                                    <div className="mb-2 text-gray-600 text-lg leading-relaxed w-full">
+                                        <label htmlFor="">
+                                            Penalty Rate
+                                        </label>
+                                        <input
+                                            value={form.penaltyRate}
+                                            onChange={handleChange}
+                                            name="penaltyRate"
+                                            type="number"
+                                            required
+                                            className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
+                                        />
+                                    </div>
                                 </div>
 
-                                <div className="mb-2 text-gray-600 text-lg leading-relaxed w-full">
-                                    <label htmlFor="">
-                                        Penalty Rate
-                                    </label>
-                                    <input
-                                        value={form.penaltyRate}
-                                        onChange={handleChange}
-                                        name="penaltyRate"
-                                        type="number"
-                                        required
-                                        className="appearance-none rounded-none relative block w-full px-3 py-4 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:leading-5"
-                                    />
+
+                                <div className="flex">
+                                    <div className="my-3 relative flex w-full flex-wrap text-gray-600 text-lg mr-1">
+                                        <label htmlFor="">
+                                            Account Type
+                                        </label>
+                                        <select
+                                            value={form.type}
+                                            onChange={handleChange}
+                                            required
+                                            name="type"
+                                            className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
+                                            <option value="Standard">Standard</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="my-3 relative flex w-full flex-wrap text-gray-600 text-lg">
+                                        <label htmlFor="">
+                                            Interest Calculation Method
+                                        </label>
+                                        <select
+                                            onChange={handleChange}
+                                            required
+                                            value={form.interestMethod}
+                                            name="interestMethod"
+                                            className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
+                                            <option value="Standard">Declining Balance</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
+
                             <div className="flex items-center justify-end p-3 rounded-b">
                                 <button
                                     disabled={loading}

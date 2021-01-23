@@ -2,7 +2,7 @@ import {Nav} from "../components/Nav";
 import React, {useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {WalletProductsPage} from "./walletProductsPage";
-import {NewWalletProduct} from "./NewWalletProduct";
+import {NewWalletProduct} from "./newWalletProduct";
 
 const GET_WALLET_PRODUCTS_QUERY = gql`
     query getWalletProducts($clientId: Int!) {

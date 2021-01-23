@@ -162,7 +162,7 @@ export function NewWalletProduct({loading, close, error, submit, data}: Props) {
                                 </div>
 
                                 <div className="flex">
-                                    <div className="my-2 text-gray-600 text-lg leading-relaxed w-full">
+                                    <div className="my-3 mt-4 text-gray-600 text-lg leading-relaxed w-full mr-1">
                                         <label htmlFor="">
                                             Interest Rate
                                         </label>
@@ -176,7 +176,7 @@ export function NewWalletProduct({loading, close, error, submit, data}: Props) {
                                         />
                                     </div>
 
-                                    <div className="my-2 relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                    <div className="my-3 relative flex w-full flex-wrap text-gray-600 text-lg">
                                         <label htmlFor="">
                                             Account Type
                                         </label>
@@ -186,7 +186,6 @@ export function NewWalletProduct({loading, close, error, submit, data}: Props) {
                                             value={form.type}
                                             name="type"
                                             className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
-                                            <option value="">Select</option>
                                             <option value="Standard">Standard</option>
                                             <option value="Fixed">Fixed</option>
                                         </select>

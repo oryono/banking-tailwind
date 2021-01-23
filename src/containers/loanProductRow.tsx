@@ -30,7 +30,7 @@ export function LoanProductRow({loanProduct}) {
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex ">
-                                {loanProduct.arearsPeriod}
+                                {loanProduct.arrearsPeriod}
                             </span>
             </td>
 

@@ -7,7 +7,7 @@ import {NewLoanProduct} from "./newLoanProduct";
 const GET_LOAN_PRODUCTS_QUERY = gql`
     query loanProducts($clientId: Int!) {
         loanProducts(clientId: $clientId) {
-            arearsPeriod
+            arrearsPeriod
             earlyPaymentPenalty
             interestMethod
             interestRate
@@ -19,8 +19,8 @@ const GET_LOAN_PRODUCTS_QUERY = gql`
 `
 
 const CREATE_NEW_LOAN_PRODUCT_MUTATION = gql`
-    mutation createLoanProduct($clientId: Int!, $name: String!, $interestRate: Float!, $penaltyRate: Float!, $arrearsPeriod: Int!, $paymentFrequency: String!) {
-        createLoanProduct(clientId: $clientId, name: $name, interestRate: $interestRate, penaltyRate: $penaltyRate, arrearsPeriod: $arrearsPeriod, paymentFrequency: $paymentFrequency) {
+    mutation createLoanProduct($clientId: Int!, $name: String!, $interestRate: Float!, $penaltyRate: Float!, $arrearsPeriod: Int!, $paymentFrequency: String!, $interestMethod: String, $type: String) {
+        createLoanProduct(clientId: $clientId, name: $name, interestRate: $interestRate, penaltyRate: $penaltyRate, arrearsPeriod: $arrearsPeriod, paymentFrequency: $paymentFrequency, interestMethod: $interestMethod, type: $type) {
             clientId
             id
         }
