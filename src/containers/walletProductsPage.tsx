@@ -13,8 +13,8 @@ export function WalletProductsPage({walletProductsInfo, setShowNewWalletProductM
             <div className="mb-4">
                 <p className="font-bold text-2xl text-gray-700 inline">Wallet Products</p>
                 <span className="float-right">
-                        <button type="button" onClick={() => setShowNewWalletProductModal(true)}>
-                            <span className="text-2xl">+</span> <span>Create Wallet</span>
+                        <button type="button" className="focus:outline-none" onClick={() => setShowNewWalletProductModal(true)}>
+                            <span className="text-2xl">+</span> <span>New Wallet Product</span>
                         </button>
                     </span>
             </div>

@@ -176,7 +176,7 @@ export function NewWalletProduct({loading, close, error, submit, data}: Props) {
                                         />
                                     </div>
 
-                                    <div className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
+                                    <div className="my-2 relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
                                         <label htmlFor="">
                                             Account Type
                                         </label>

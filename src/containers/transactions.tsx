@@ -26,18 +26,16 @@ type Description = "Deposit"
 
 interface Filter {
     transactionReference: string;
-    type: Type;
     description: Description;
 }
 
 export function Transactions() {
-    const [filters, setFilters] = useState<Filter>({transactionReference: "", description: "Deposit", type: "credit"})
+    const [filters, setFilters] = useState<Filter>({transactionReference: "", description: "Deposit"})
     const entriesInfo = useQuery(GET_ENTRIES_QUERY, {
         variables: {
             limit: 1000,
             offset: 0,
             transactionReference: filters.transactionReference,
-            transactionType: filters.type,
             transactionDescription: filters.description
         }
     })
@@ -85,17 +83,17 @@ export function Transactions() {
                                 <option value="Withdrawal Fee">Withdrawal Fee</option>
                             </select>
                         </div>
-                        <div className="flex w-full flex-wrap items-stretch">
-                            <select
-                                onChange={handleChange}
-                                name="type"
-                                value={filters.type}
-                                className="appearance-none border text-gray-700 p-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
-                                <option value="">Select Transaction Type</option>
-                                <option value="credit">Credit</option>
-                                <option value="debit">Debit</option>
-                            </select>
-                        </div>
+                        {/*<div className="flex w-full flex-wrap items-stretch">*/}
+                        {/*    <select*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*        name="type"*/}
+                        {/*        value={filters.type}*/}
+                        {/*        className="appearance-none border text-gray-700 p-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">*/}
+                        {/*        <option value="">Select Transaction Type</option>*/}
+                        {/*        <option value="credit">Credit</option>*/}
+                        {/*        <option value="debit">Debit</option>*/}
+                        {/*    </select>*/}
+                        {/*</div>*/}
                     </form>
                 </div>
             </div>
