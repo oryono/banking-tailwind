@@ -28,8 +28,8 @@ export function InstallmentRow({installment}) {
 
             <td className="pl-4 py-4 whitespace-no-wrap">
                             <span
-                                className="px-2 inline-flex">
-                                {moment(installment.paymentDate).format("MM/DD/YY")}
+                                className="px-2 inline-flex text-gray-700">
+                                {moment(installment.paymentDate).format('dddd, MMM Do, YYYY')}
                             </span>
             </td>
         </tr>

@@ -5,7 +5,7 @@ import {Entries} from "./entries";
 import {Installments} from "./installments";
 import React, {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
-import {amortizationSchedule} from "../utils/amortization";
+import {amortizationSchedule, PaymentFrequency} from "../utils/amortization";
 import Error from "../components/Error";
 import {Loading} from "../components/Loading";
 
@@ -34,14 +34,19 @@ export function LoanPage({loanAccountDetailsInfo}) {
     const [showApprovalModal, setShowApprovalModal] = useState(false)
     const [showDisburseModal, setShowDisburseModal] = useState(false)
 
-    function generateSchedule(principal, period, interest) {
-        return amortizationSchedule(principal, period, interest)
+    function generateSchedule(principal, period, interest, frequency) {
+        return amortizationSchedule(principal, period, interest, frequency)
+    }
+
+    function frequency(): PaymentFrequency {
+        if (loanDetails?.account.loanDetail.paymentFrequency === "Monthly") return "monthly"
+        else if (loanDetails?.account.loanDetail.paymentFrequency === "Weekly") return "weekly"
     }
 
     React.useEffect(() => {
         if (loanAccountDetailsInfo.data) {
             seLoanDetails(loanAccountDetailsInfo.data.accountDetails)
-            setTemporalySchedule(generateSchedule(loanDetails?.account.loanDetail?.totalPrincipal, loanDetails?.account.loanDetail?.loanPeriod, loanDetails?.account.loanDetail?.interestRate))
+            setTemporalySchedule(generateSchedule(loanDetails?.account.loanDetail?.totalPrincipal, loanDetails?.account.loanDetail?.loanPeriod, loanDetails?.account.loanDetail?.interestRate, frequency()))
         }
     }, [loanAccountDetailsInfo.loading, loanAccountDetailsInfo.data, loanDetails])
 
@@ -104,7 +109,8 @@ export function LoanPage({loanAccountDetailsInfo}) {
 
             {loanDetails?.account.loanDetail.status === "Disbursed" ?
                 <Installments installments={loanDetails?.account.loanInstallments} scheduleTitle="Installments"/> :
-                <Installments installments={temporalySchedule} scheduleTitle="Temporal Schedule"/>}
+                <Installments installments={temporalySchedule} scheduleTitle="Temporal Schedule"/>
+                }
 
         </div>
     )

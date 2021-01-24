@@ -48,8 +48,8 @@ const CREATE_WALLET_MUTATION = gql`
 `
 
 const CREATE_LOAN_APPLICATION_MUTATION = gql`
-    mutation applyForLoan($clientId: Int!, $amount: Int!, $customerId: Int!, $loanPurpose: String!, $duration: Int!, $interestRate: Int!, $installments: String!, $loanProductId: Int!) {
-        applyForLoan(clientId: $clientId, amount: $amount, customerId: $customerId, purpose: $loanPurpose, duration: $duration, interestRate: $interestRate, loanProductId: $loanProductId, installments: $installments) {
+    mutation applyForLoan($clientId: Int!, $amount: Int!, $customerId: Int!, $loanPurpose: String!, $duration: Int!, $interestRate: Int!, $loanProductId: Int!, $paymentFrequency: String) {
+        applyForLoan(clientId: $clientId, amount: $amount, customerId: $customerId, purpose: $loanPurpose, duration: $duration, interestRate: $interestRate, loanProductId: $loanProductId, paymentFrequency: $paymentFrequency) {
             id
             accountNumber
             client{

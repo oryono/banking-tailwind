@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {ApolloError, gql, MutationFunctionOptions, useQuery} from "@apollo/client";
-import {amortizationSchedule} from "../utils/amortization";
 import {formatCurrency} from "../utils/currency";
 
 import Cookies from 'universal-cookie';
@@ -17,12 +16,24 @@ const GET_LOAN_PRODUCTS_QUERY = gql`
     }
 `
 
+const GET_LOAN_PRODUCT_QUERY = gql`
+    query getLoanProduct($loanProductId: Int!) {
+        loanProduct(loanProductId: $loanProductId) {
+            interestRate
+            arrearsPeriod
+            paymentFrequency
+            interestMethod
+            name
+            id
+        }
+    }
+`
+
 type Purpose = "Asset Finance" | "Education" | "Agriculture" | "Other"
 
 interface FormData {
     loanAmount: string;
     loanDuration: string;
-    interestRate: string;
     loanPurpose: Purpose;
     clientId: number;
     customerId: number;
@@ -47,16 +58,21 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
         variables: {clientId: parseInt(client.id)},
         fetchPolicy: "network-only"
     })
+
     const [loanProducts, setLoanProducts] = useState([])
-    const [schedule, setSchedule] = useState([])
+    const [loanProduct, setLoanProduct] = useState(null)
     const [form, setForm] = useState<FormData>({
         loanAmount: null,
         loanDuration: null,
         loanPurpose: null,
-        interestRate: null,
         customerId: customerId,
         clientId: parseInt(client.id),
-        loanProductId: null
+        loanProductId: loanProducts[0]?.id
+    })
+
+    const loanProductInfo = useQuery(GET_LOAN_PRODUCT_QUERY, {
+        nextFetchPolicy: "network-only",
+        variables: {loanProductId: parseInt(form.loanProductId)}
     })
 
     React.useEffect(() => {
@@ -65,17 +81,25 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
         }
     }, [loanProductsInfo.data])
 
+    React.useEffect(() => {
+        if (loanProductInfo.data) {
+            setLoanProduct(loanProductInfo.data.loanProduct)
+        }
+    }, [loanProductInfo.data])
+
     function handleChange(event) {
         const {name, value} = event.target;
         form[name] = value
         setForm({...form})
-        if (form.loanAmount && form.loanDuration && form.interestRate) {
-            setSchedule(generateSchedule(form.loanAmount, form.loanDuration, form.interestRate))
-        }
     }
 
-    function generateSchedule(principal, period, interest) {
-        return amortizationSchedule(principal, period, interest)
+    function durationLabel() {
+        if (loanProduct) {
+            if (loanProduct.paymentFrequency === "Monthly") return "Months"
+            else if (loanProduct.paymentFrequency === "Weekly") return "Weeks"
+            else if (loanProduct.paymentFrequency === "Bi Weekly") return "Bi Weeks"
+            else if (loanProduct.paymentFrequency === "Daily") return "Days"
+        }
     }
 
     if (data?.applyForLoan) {
@@ -111,7 +135,7 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
                                 </svg>
                             </button>
                         </div>
-                        { error ? <div className="text-pink-300 px-6 pt-2">{error.message }</div> : null}
+                        {error ? <div className="text-pink-300 px-6 pt-2">{error.message}</div> : null}
                         <form action="" onSubmit={(e) => {
                             e.preventDefault();
                             submit({
@@ -120,10 +144,10 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
                                     clientId: parseInt(client.id),
                                     duration: parseInt(form.loanDuration),
                                     amount: parseInt(form.loanAmount),
-                                    installments: JSON.stringify(schedule),
-                                    interestRate: parseInt(form.interestRate),
+                                    interestRate: parseFloat(loanProduct.interestRate),
                                     loanProductId: parseInt(form.loanProductId),
-                                    loanPurpose: form.loanPurpose
+                                    loanPurpose: form.loanPurpose,
+                                    paymentFrequency: loanProduct.paymentFrequency
                                 }
                             })
                         }}>
@@ -136,21 +160,44 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
                                         </label>
 
                                         {
-                                            loanProductsInfo.loading ? <div className="block"> Loading...</div> :                                         <select
-                                                required
-                                                onChange={handleChange}
-                                                name="loanProductId"
-                                                className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
-                                                <option value="">Select</option>
-                                                {loanProducts.map(product => <option value={product.id}
-                                                                                     key={product.id}>{product.name}</option>)}
+                                            loanProductsInfo.loading ? <div className="block"> Loading...</div> :
+                                                <select
+                                                    required
+                                                    onChange={handleChange}
+                                                    name="loanProductId"
+                                                    className="block appearance-none border border-gray-200 text-gray-700 px-3 py-3 bg-white leading-tight focus:outline-none focus:bg-white focus:border-blue-300 w-full">
+                                                    <option value="">Select</option>
+                                                    {loanProducts.map(product => <option value={product.id}
+                                                                                         key={product.id}>{product.name}</option>)}
 
-                                            </select>
+                                                </select>
                                         }
                                         <div
                                             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-700">
                                         </div>
                                     </div>
+                                    {loanProduct &&
+                                    <div className="shadow-lg my-1 p-2">
+                                        {loanProductInfo.loading ? <span>loading....</span> :
+
+                                            <div>
+                                                <div className="flex justify-start">
+                                                    <div className="flex-1">Name: {loanProduct.name}</div>
+                                                    <div>Interest rate: {loanProduct.interestRate}</div>
+
+                                                </div>
+                                                <div className="flex justify-start">
+                                                    <div className="flex-1">Arrears Period: {loanProduct.arrearsPeriod}</div>
+                                                    <div>Payment Frequency: {loanProduct.paymentFrequency}</div>
+                                                </div>
+                                                <div>
+                                                    Interest Method: {loanProduct.interestMethod}
+                                                </div>
+
+                                            </div>}
+                                    </div>}
+
+
                                     <div
                                         className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
                                         <label htmlFor="">
@@ -168,24 +215,10 @@ export function NewLoanApplication({customerId, submit, loading, close, error, d
                                     <div
                                         className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
                                         <label htmlFor="">
-                                            Loan Duration
+                                            Loan Duration { loanProduct && `in ${durationLabel()}`}
                                         </label>
                                         <input
                                             name="loanDuration"
-                                            type="number"
-                                            required
-                                            onChange={handleChange}
-                                            className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
-                                        />
-                                    </div>
-
-                                    <div
-                                        className="relative flex w-full flex-wrap items-stretch text-gray-600 text-lg">
-                                        <label htmlFor="">
-                                            Interest Rate
-                                        </label>
-                                        <input
-                                            name="interestRate"
                                             type="number"
                                             required
                                             onChange={handleChange}

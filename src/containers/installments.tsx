@@ -35,7 +35,7 @@ export function Installments({installments, scheduleTitle}) {
                                 </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                {installments.map(installment => <InstallmentRow key={installment.paymentNumber} installment={installment}/>)}
+                                {installments?.map(installment => <InstallmentRow key={installment.paymentNumber} installment={installment}/>)}
                                 </tbody>
                             </table>
                         </div>

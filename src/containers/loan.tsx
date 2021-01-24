@@ -38,6 +38,7 @@ const GET_ACCOUNT_DETAILS = gql`
                     paymentDate
                 }
                 loanDetail{
+                    paymentFrequency
                     currentMonthlyPayment
                     interestRate
                     status
