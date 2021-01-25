@@ -17,6 +17,8 @@ const GET_LOANS_QUERY = gql`
             loanDetail{
                 status
                 totalPrincipal
+                paymentFrequency
+                loanPeriod
             }
             loanInstallments {
                 id

@@ -46,7 +46,7 @@ export function EntryRow({entry}) {
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                              {moment(entry.insertedAt).format("MM/DD/YY HH:mm")}
+                              {moment(entry.insertedAt).format("dddd, MMM Do, YYYY HH:mm")}
                             </span>
             </td>
         </tr>

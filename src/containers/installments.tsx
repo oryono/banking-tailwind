@@ -16,7 +16,7 @@ export function Installments({installments, scheduleTitle}) {
                                         Payment Number
                                     </th>
                                     <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
-                                        Monthly Payment
+                                        Installment
                                     </th>
                                     <th className="px-3 py-4 bg-gray-50 text-left  leading-4 font-medium text-gray-500 tracking-wider">
                                         Principal
