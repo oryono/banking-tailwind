@@ -11,48 +11,48 @@ export function LoanRow({loan}) {
 
     return (
         <tr>
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                 <span className="leading-5 text-gray-900">
                     <Link className="hover:underline" to={`/loans/${loan.id}`}>{loan.name}</Link>
                 </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                               {loan.accountNumber}
                             </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                               {loan.loanDetail.status === "Disbursed" ? <Balance accountId={parseInt(loan.id)}/> : "Not disbursed"}
                             </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                                 <Money money={loan.loanDetail.totalPrincipal} color="text-green-600"/>
                             </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                                 {loan.loanDetail.loanPeriod}
                             </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                                 {loan.loanDetail.paymentFrequency}
                             </span>
             </td>
 
-            <td className="px-2 py-4 whitespace-no-wrap">
+            <td className="px-3 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
                               {loan.loanDetail.status}
