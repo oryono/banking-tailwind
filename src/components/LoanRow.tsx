@@ -55,13 +55,6 @@ export function LoanRow({loan}) {
             <td className="px-2 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                              {loan.customer.name}
-                            </span>
-            </td>
-
-            <td className="px-2 py-4 whitespace-no-wrap">
-                            <span
-                                className="px-2 inline-flex">
                               {loan.loanDetail.status}
                             </span>
             </td>
