@@ -39,7 +39,6 @@ const GET_ACCOUNT_DETAILS = gql`
                 }
                 loanDetail{
                     paymentFrequency
-                    currentMonthlyPayment
                     interestRate
                     status
                     totalPrincipal
