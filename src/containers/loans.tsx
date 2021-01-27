@@ -1,9 +1,12 @@
 import React from "react";
-import {gql, useQuery} from "@apollo/client";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import {PuffLoader} from "react-spinners";
 import Error from "../components/Error";
 import {Link} from "react-router-dom";
 import {Balance} from "./balance";
+
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 const GET_CUSTOMER_LOANS = gql`
     query getAccounts ($customerId: Int!){
@@ -18,8 +21,40 @@ const GET_CUSTOMER_LOANS = gql`
     }
 `
 
+const MAKE_PAYMENT_MUTATION = gql`
+mutation makePayment($loanAccountId: Int!) {
+  makePayment(loanAccountId: $loanAccountId) {
+    message
+  }
+}
+`
+
 export function Loans(props) {
+    const [makePayment, makePaymentResult] = useMutation(MAKE_PAYMENT_MUTATION, {errorPolicy: "all"})
+
     const {data, loading, error} = useQuery(GET_CUSTOMER_LOANS, {variables: {customerId: parseInt(props.customerId)}})
+
+    React.useEffect(() => {
+        if (makePaymentResult.data && makePaymentResult.data.makePayment?.message === "Payment Successful") {
+            const properties = {
+                message: `Payment of loan was successful.`,
+                type: "success"
+            }
+            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+            window.location.reload();
+        }
+    })
+
+    React.useEffect(() => {
+        if (makePaymentResult.error) {
+            const properties = {
+                message: `${makePaymentResult.error}`,
+                type: "error"
+            }
+            cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+            window.location.reload();
+        }
+    })
 
     if (loading) return (
         <div className="flex">
@@ -56,7 +91,7 @@ export function Loans(props) {
                         <div className="flex flex-col justify-end items-end">
                             <div className=""><Balance accountId={account.id}/></div>
                             <div className="flex space-x-2">
-                                <span><button className="focus:outline-none " type="button"><span className="hover:underline">Make Payment</span></button></span>
+                                <span><button className="focus:outline-none " type="button" onClick={() => makePayment({variables: {loanAccountId: parseInt(account.id)}})} disabled={makePaymentResult.loading}><span className="hover:underline">Make Payment</span></button></span>
                             </div>
                         </div>
                     </div>

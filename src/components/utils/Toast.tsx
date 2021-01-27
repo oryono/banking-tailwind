@@ -29,9 +29,16 @@ export function Toast() {
         return "Error"
     }
 
+    function toastBg() {
+        if (toastProperties.type === "success") {
+            return "bg-green-500"
+        }
+        return "bg-red-500"
+    }
+
     return ((showToast && !!toastProperties) && <div className="fixed bottom-0 right-0 m-8 w-5/6 md:w-full max-w-sm">
         <div
-            className="close cursor-pointer w-full p-3 bg-green-500 rounded shadow-lg text-white">
+            className={`close cursor-pointer w-full p-3 ${toastBg()} rounded shadow-lg text-white`}>
             <div>
                 <div className="flex justify-between">
                     <span className="font-semibold">{title()}</span>
