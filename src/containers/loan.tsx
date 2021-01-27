@@ -31,11 +31,12 @@ const GET_ACCOUNT_DETAILS = gql`
                 loanInstallments {
                     id
                     paymentNumber
-                    monthlyPayment
+                    payment
                     principal
                     interest
                     balance
                     paymentDate
+                    cleared
                 }
                 loanDetail{
                     paymentFrequency

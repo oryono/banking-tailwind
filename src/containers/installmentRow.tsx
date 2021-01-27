@@ -10,7 +10,7 @@ export function InstallmentRow({installment}) {
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
-                {installment.id ? <Money money={installment.monthlyPayment}/> : <Money money={installment.payment}/>}
+                {installment.id ? <Money money={installment.payment}/> : <Money money={installment.payment}/>}
             </td>
 
             <td className="pl-4 py-4 whitespace-no-wrap">
@@ -30,6 +30,13 @@ export function InstallmentRow({installment}) {
                             <span
                                 className="px-2 inline-flex text-gray-700">
                                 {moment(installment.paymentDate).format('dddd, MMM Do, YYYY')}
+                            </span>
+            </td>
+
+            <td className="pl-4 py-4 whitespace-no-wrap">
+                            <span
+                                className="px-2 inline-flex text-gray-700">
+                                <input type="checkbox" checked={installment.cleared}/>
                             </span>
             </td>
         </tr>

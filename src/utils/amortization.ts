@@ -63,8 +63,7 @@ function monthlyAmortizationSchedule(principal: number, term: number, interestRa
     const numerator = rate * Math.pow((1 + rate), term)
     const denominator = Math.pow((1 + rate), term) - 1
 
-    const amortization = principal * (numerator / denominator);
-    const installment = Math.round(amortization * 100) / 100;
+    const installment = principal * (numerator / denominator);
 
     console.log(installment)
 
