@@ -65,8 +65,6 @@ function monthlyAmortizationSchedule(principal: number, term: number, interestRa
 
     const installment = principal * (numerator / denominator);
 
-    console.log(installment)
-
     let amortizationSchedule = [];
     for (let i = 0; i < term; i++) {
         const prevPrincipal = i === 0 ? principal : amortizationSchedule[i-1].principalBalance;

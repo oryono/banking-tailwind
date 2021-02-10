@@ -2,8 +2,6 @@ import React from "react";
 import {QueryResult} from "@apollo/client";
 import Error from "../components/Error";
 import {PuffLoader} from "react-spinners";
-import {formatCurrency} from "../utils/currency";
-import moment from "moment";
 import {Entries} from "./entries";
 
 export function AccountPage({accountInfo}: { accountInfo: QueryResult }) {
@@ -17,7 +15,7 @@ export function AccountPage({accountInfo}: { accountInfo: QueryResult }) {
     return (
         <div>
             <div>
-                <p className="font-bold text-2xl text-gray-700">Account Statement</p>
+                <p className="font-bold text-2xl text-gray-700 inline">Account Statement</p>
             </div>
             <Entries entries={accountInfo.data.entries}/>
         </div>

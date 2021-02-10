@@ -20,10 +20,6 @@ export function TransactionsPage({entriesInfo, setFilters}: { entriesInfo: Query
     if (entriesInfo.loading) return <Loading message="Loading transactions"/>
     if (entriesInfo.error) return <Error error={entriesInfo.error}/>
 
-
-
-
-
     return (
         <div className="mb-4">
             <div>

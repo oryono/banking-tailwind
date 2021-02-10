@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import {Money} from "./shared/money";
+import {titleCase} from "../utils/cases";
 
 export function EntryRow({entry}) {
     function computeColorClass(entry) {
@@ -22,7 +23,7 @@ export function EntryRow({entry}) {
             <td className="px-4 py-4 whitespace-no-wrap">
                             <span
                                 className="px-2 inline-flex">
-                              {entry.description}
+                              {titleCase(entry.description)}
                             </span>
             </td>
 
