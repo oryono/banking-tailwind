@@ -61,11 +61,11 @@ export function LoanPage({loanAccountDetailsInfo}) {
                         <button
                             disabled={loanDetails?.account.loanDetail.status === "Approved" || loanDetails?.account.loanDetail.status === "Disbursed"}
                             onClick={() => setShowApprovalModal(true)}
-                            className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Approve</button>
+                            className="p-1 mx-1 rounded border border-blue-400 text-blue-400">{loanDetails?.account.loanDetail.status === "Approved" ? "Approved" : "Approve"}</button>
                         <button
                             disabled={loanDetails?.account.loanDetail.status !== "Approved" || loanDetails?.account.loanDetail.status === "Disbursed"}
                             onClick={() => setShowDisburseModal(true)}
-                            className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Disburse</button>
+                            className="p-1 mx-1 rounded border border-blue-400 text-blue-400">{loanDetails?.account.loanDetail.status === "Disbursed" ? "Disbursed" : "Disburse"}</button>
                         <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Write off</button>
                         <button className="p-1 mx-1 rounded border border-blue-400 text-blue-400">Clear</button>
                     </span>

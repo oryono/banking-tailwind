@@ -1,6 +1,9 @@
 import React, {useState} from "react";
-import {ApolloError, gql, MutationFunctionOptions} from "@apollo/client";
-import Error from "../components/Error";
+import {ApolloError, gql, MutationFunctionOptions, MutationResult} from "@apollo/client";
+import {formatCurrency} from "../utils/currency";
+import Cookies from 'universal-cookie';
+import {generateErrorMessage} from "../utils/errors";
+const cookies = new Cookies();
 
 
 interface FormData {
@@ -20,9 +23,10 @@ interface Props {
     close: React.Dispatch<React.SetStateAction<boolean>>
     loading: boolean;
     error: ApolloError;
+    data: any
 }
 
-export function NewCustomer({close, submit, error, loading}: Props) {
+export function NewCustomer({close, submit, error, loading, data}: Props) {
     const [form, setForm] = useState<FormData>({name: "", phone: "", email: "", dob: "", village: "", district: "", country: "", gender: ""})
     const client = JSON.parse(localStorage.getItem("client"))
 
@@ -32,7 +36,27 @@ export function NewCustomer({close, submit, error, loading}: Props) {
         setForm({...form})
     }
 
-    if (error) return <Error error={error}/>
+    if (error) {
+        const message = generateErrorMessage(error)
+        console.log(message)
+        const properties = {
+            message: generateErrorMessage(error),
+            type: "error"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+        window.location.reload();
+    }
+
+    if (data?.createCustomer) {
+        const properties = {
+            message: `Customer ${data.createCustomer.name} has been registered successfully.`,
+            type: "success"
+        }
+        cookies.set('toastProperties', JSON.stringify(properties), { path: '/' });
+        window.location.reload();
+    }
+
+
 
     return (
         <div>
@@ -82,6 +106,8 @@ export function NewCustomer({close, submit, error, loading}: Props) {
                                             name="phone"
                                             type="tel"
                                             required
+                                            placeholder="256123456789"
+                                            pattern="^(256)[0-9]{3}\d{6}$"
                                             onChange={handleChange}
                                             className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
                                         />
@@ -97,6 +123,7 @@ export function NewCustomer({close, submit, error, loading}: Props) {
                                             name="email"
                                             type="email"
                                             required
+                                            placeholder="user@domain.com"
                                             onChange={handleChange}
                                             className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5"
                                         />

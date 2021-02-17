@@ -58,7 +58,9 @@ export function Customers() {
             <div>
                 {showNewCustomerModal ? <NewCustomer close={setShowNewCustomerModal} submit={createCustomer}
                                                      loading={createCustomerResult.loading}
-                                                     error={createCustomerResult.error}/> : null}
+                                                     error={createCustomerResult.error}
+                                                     data={createCustomerResult.data}
+                /> : null}
                 <div className="mb-1">
                     <p className="font-bold text-2xl text-gray-700 inline">Customers</p>
                     <span className="float-right">
