@@ -35,7 +35,7 @@ spec:
       containers:
         -   name: banking-app
             imagePullPolicy: Always
-            image: ghcr.io/oryono/banking-tailwind:__IMAGE_TAG__
+            image: ghcr.io/oryono/banking-tailwind:latest
             ports:
               -   containerPort: 80
 ---
