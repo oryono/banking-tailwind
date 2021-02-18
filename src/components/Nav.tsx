@@ -15,7 +15,7 @@ export function Nav({children}) {
                             src="https://tailwindui.com/img/logos/v1/workflow-mark-on-white.svg"
                             alt=""
                         />
-                        <p className="ml-2 text-lg">Alpine Finance</p>
+                        <p className="ml-2 text-lg">Alpine Banking</p>
                     </div>
                     <ul className="px-1">
                         <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">

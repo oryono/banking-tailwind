@@ -22,7 +22,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
   deploy:
     name: deploy to cluster
@@ -36,5 +36,7 @@ jobs:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
         with:
           args: kubernetes cluster kubeconfig show ${{ secrets.KUBE_CLUSTER }} > $GITHUB_WORKSPACE/.kubeconfig
+      - name: Replace __IMAGE_TAG__ with Github Sha
+        run: sed -i "s~__IMAGE_TAG__~${{ github.sha }}~" $GITHUB_WORKSPACE/k8s.yml
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl --kubeconfig=$GITHUB_WORKSPACE/.kubeconfig apply -f $GITHUB_WORKSPACE/k8s.yml
