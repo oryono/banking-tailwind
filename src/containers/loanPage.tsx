@@ -46,7 +46,7 @@ export function LoanPage({loanAccountDetailsInfo}) {
     React.useEffect(() => {
         if (loanAccountDetailsInfo.data) {
             seLoanDetails(loanAccountDetailsInfo.data.accountDetails)
-            setTemporalySchedule(generateSchedule(loanDetails?.account.loanDetail?.totalPrincipal, loanDetails?.account.loanDetail?.loanPeriod, loanDetails?.account.loanDetail?.interestRate, frequency()))
+            setTemporalySchedule(generateSchedule((loanDetails?.account.loanDetail?.approvedAmount ? loanDetails?.account.loanDetail?.approvedAmount : loanDetails?.account.loanDetail?.totalPrincipal), loanDetails?.account.loanDetail?.loanPeriod, loanDetails?.account.loanDetail?.interestRate, frequency()))
         }
     }, [loanAccountDetailsInfo.loading, loanAccountDetailsInfo.data, loanDetails])
 
