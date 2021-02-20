@@ -33,7 +33,7 @@ export function Transactions() {
     const [filters, setFilters] = useState<Filter>({transactionReference: "", description: "Deposit"})
     const entriesInfo = useQuery(GET_ENTRIES_QUERY, {
         variables: {
-            limit: 1000,
+            limit: 100,
             offset: 0,
             transactionReference: filters.transactionReference,
             transactionDescription: filters.description
