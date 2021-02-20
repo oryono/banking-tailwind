@@ -22,7 +22,7 @@ export function Monthly(props) {
         }
 
         setChartData(entries)
-    }, [])
+    }, [props.transactions])
 
 
     return (

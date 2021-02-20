@@ -37,7 +37,8 @@ export function Transactions() {
             offset: 0,
             transactionReference: filters.transactionReference,
             transactionDescription: filters.description
-        }
+        },
+        fetchPolicy: "network-only"
     })
 
     function handleChange(event) {
@@ -97,7 +98,7 @@ export function Transactions() {
                     </form>
                 </div>
             </div>
-            <TransactionsPage entriesInfo={entriesInfo} setFilters={setFilters}/>
+            <TransactionsPage entriesInfo={entriesInfo}/>
         </Nav>
     )
 }

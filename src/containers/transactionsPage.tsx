@@ -14,7 +14,7 @@ interface Filter {
     description: Description;
 }
 
-export function TransactionsPage({entriesInfo, setFilters}: { entriesInfo: QueryResult, setFilters }) {
+export function TransactionsPage({entriesInfo}: { entriesInfo: QueryResult }) {
     const [hasMore, setHasMore] = useState(true)
     if (entriesInfo.loading) return <Loading message="Loading transactions"/>
     if (entriesInfo.error) return <Error error={entriesInfo.error}/>
