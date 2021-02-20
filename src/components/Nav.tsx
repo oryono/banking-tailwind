@@ -51,14 +51,47 @@ export function Nav({children}) {
                         </li>
 
                         <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
+                            <NavLink to="/tellers" className="block">
+                                <div className="flex">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    <p className="ml-2">
+                                        Tellers
+                                    </p>
+                                </div>
+
+                            </NavLink>
+                        </li>
+
+
+                        <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
+                            <NavLink to="/users" className="block">
+                                <div className="flex">
+                                    <svg className="w-6 h-6" fill="none" stroke="pink" viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                    <p className="ml-2">
+                                        Users
+                                    </p>
+                                </div>
+
+                            </NavLink>
+                        </li>
+
+                        <li className="py-2 px-3 w-full hover:bg-gray-400 rounded">
                             <NavLink to="/loans" className="block" activeStyle={{
                                 fontWeight: "bold",
                             }}>
                                 <div className="flex">
                                     <svg className="w-6 h-6" fill="none" stroke="brown" viewBox="0 0 24 24"
                                          xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                              d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                                     </svg>
                                     <p className="ml-2">
                                         Loans
@@ -98,13 +131,13 @@ export function Nav({children}) {
                                     >
                                 </li>
 
-                                {/*<li className="">*/}
-                                {/*    <NavLink*/}
-                                {/*        className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"*/}
-                                {/*        to="/reports/trial-balance"*/}
-                                {/*    >Trial Balance</NavLink*/}
-                                {/*    >*/}
-                                {/*</li>*/}
+                                <li className="">
+                                    <NavLink
+                                        className="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
+                                        to="/reports/trial-balance"
+                                    >Trial Balance</NavLink
+                                    >
+                                </li>
                             </ul>
                         </li>
                         <li className="py-2 px-3 w-full hover:bg-gray-400 rounded group">
