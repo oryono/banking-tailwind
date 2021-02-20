@@ -4,6 +4,7 @@ import {Monthly} from "./totals/monthly";
 import {gql, useQuery} from "@apollo/client";
 import {Transaction} from "../components/totals/transaction";
 import {CustomerSummary} from "./customerSummary";
+import {NewMonthlyCustomers} from "./newMonthlyCustomers";
 
 const GET_WITHDRAWALS_TOTAL_QUERY = gql`
     query getWithdrawalsTotal{
@@ -73,6 +74,10 @@ export function Dashboard() {
                 </div>
                 <div>
                     <Monthly/>
+                </div>
+
+                <div>
+                    <NewMonthlyCustomers/>
                 </div>
 
                 <div>

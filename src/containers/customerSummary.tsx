@@ -20,7 +20,7 @@ export function CustomerSummary() {
 
     React.useEffect(() => {
         if (data) {
-            setChartData([...[['Task', 'Hours per Day']], ...data.customerSummary.summary])
+            setChartData([...[['Customer Sex', 'Total Number']], ...data.customerSummary.summary])
         }
     }, [data])
 
@@ -30,7 +30,7 @@ export function CustomerSummary() {
     if (error) return <Error error={error}/>
 
     return (
-        <div className="p-4 rounded w-1/2 overflow-hidden shadow-lg h-auto">
+        <div className="p-4 rounded overflow-hidden shadow-lg h-auto">
             <Chart
                 width={'500px'}
                 height={'300px'}
