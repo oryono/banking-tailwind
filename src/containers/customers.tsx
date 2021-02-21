@@ -10,6 +10,15 @@ const GET_CUSTOMERS_QUERY = gql`
             name
             phone
             email
+            dob
+            city
+            district
+            county
+            subCounty
+            parish
+            village
+            nextOfKin
+            nextOfKinPhone
             gender
             id
             identification
